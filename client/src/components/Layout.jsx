@@ -4,11 +4,13 @@ import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <NavBar />
-      <Outlet />
+      <main className="flex-fill">
+        <Outlet />
+      </main>
       <Footer />
-    </>
+    </div>
   );
 };
 
