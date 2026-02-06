@@ -2,7 +2,7 @@ import { GitHub, LinkedIn } from "@mui/icons-material";
 
 const Footer = () => {
   return (
-    <footer className="bg-dark text-light py-3 mt-auto">
+    <footer className="text-light py-3 mt-auto" style={{backgroundColor: "#444444"}}>
       <div className="container d-flex justify-content-between align-items-center">
         {/* Left: Name */}
         <span className="small">
@@ -21,7 +21,7 @@ const Footer = () => {
           </a>
 
           <a
-            href="https://https://github.com/melroy-b"
+            href="https://github.com/melroy-b"
             target="_blank"
             rel="noopener noreferrer"
             className="text-light"
