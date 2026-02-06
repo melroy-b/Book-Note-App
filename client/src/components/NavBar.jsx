@@ -52,8 +52,9 @@ const NavBar = () => {
   return (
     <Navbar style={{ backgroundColor: "#773e3e" }} data-bs-theme="dark">
       <Container>
-        
-        <Navbar.Brand href="/">Book Notes</Navbar.Brand>
+        <Navbar.Brand href="/">
+          <span className="brand fs-4">Book Notes</span>
+        </Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
           <Nav.Link href="/library">Library</Nav.Link>
