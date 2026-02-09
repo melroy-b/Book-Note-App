@@ -4,6 +4,8 @@ import Navbar from "react-bootstrap/Navbar";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import SvgIcon from "@mui/icons-material/Search";
+import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -52,6 +54,7 @@ const NavBar = () => {
   return (
     <Navbar style={{ backgroundColor: "#773e3e" }} data-bs-theme="dark">
       <Container>
+        <BookmarkAddedIcon style={{ color: "white", marginRight: "10px" }} />
         <Navbar.Brand href="/">
           <span className="brand fs-4">Book Notes</span>
         </Navbar.Brand>
