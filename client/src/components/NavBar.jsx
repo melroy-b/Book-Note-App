@@ -54,7 +54,7 @@ const NavBar = () => {
   return (
     <Navbar style={{ backgroundColor: "#773e3e" }} data-bs-theme="dark">
       <Container>
-        <BookmarkAddedIcon style={{ color: "white", marginRight: "10px" }} />
+        <BookmarkAddedIcon fontSize="large" style={{ color: "white", marginRight: "15px" }} />
         <Navbar.Brand href="/">
           <span className="brand fs-4">Book Notes</span>
         </Navbar.Brand>
