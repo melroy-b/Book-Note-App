@@ -1,4 +1,15 @@
+import Button from "@mui/material/Button";
+
 const Hero = () => {
+  const handleSearchClick = () => {
+    const searchInput = document.getElementById("navbar-search-input");
+    if (!searchInput) return;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    searchInput.focus();
+    searchInput.select?.();
+  };
+
   return (
     <div>
       <div className="px-4 py-5 my-2 text-center">
@@ -12,9 +23,14 @@ const Hero = () => {
             reimagined.
           </p>
           <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <a href="/search" className="btn btn-dark btn-lg px-4 gap-3">
+            <Button
+              variant="contained"
+              className="btn btn-dark btn-lg px-4 gap-3"
+              type="button"
+              onClick={handleSearchClick}
+            >
               Search Books
-            </a>
+            </Button>
           </div>
         </div>
       </div>

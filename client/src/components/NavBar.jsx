@@ -54,7 +54,10 @@ const NavBar = () => {
   return (
     <Navbar style={{ backgroundColor: "#773e3e" }} data-bs-theme="dark">
       <Container>
-        <BookmarkAddedIcon fontSize="large" style={{ color: "white", marginRight: "15px" }} />
+        <BookmarkAddedIcon
+          fontSize="large"
+          style={{ color: "white", marginRight: "15px" }}
+        />
         <Navbar.Brand href="/">
           <span className="brand fs-4">Book Notes</span>
         </Navbar.Brand>
@@ -70,6 +73,7 @@ const NavBar = () => {
           <StyledInputBase
             placeholder="Search Books"
             inputProps={{ "aria-label": "search" }}
+            id="navbar-search-input"
           />
         </Search>
       </Container>
