@@ -25,9 +25,19 @@ const Hero = () => {
           <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
             <Button
               variant="contained"
-              className="btn btn-dark btn-lg px-4 gap-3"
+              //   className="btn btn-dark btn-lg px-4 gap-3"
               type="button"
               onClick={handleSearchClick}
+              sx={{
+                px: 4,
+                py: 1.25,
+                borderRadius: 2,
+                textTransform: "none",
+                fontSize: "1rem",
+                fontWeight: 600,
+                bgcolor: "#773e3e",
+                "&:hover": { bgcolor: "#530909" },
+              }}
             >
               Search Books
             </Button>
