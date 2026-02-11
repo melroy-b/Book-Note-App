@@ -28,6 +28,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   height: "100%",
   position: "absolute",
   pointerEvents: "none",
+  flexBasis: "100%",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -53,12 +54,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const NavBar = () => {
   return (
     <Navbar style={{ backgroundColor: "#773e3e" }} data-bs-theme="dark">
-      <Container>
-        <BookmarkAddedIcon
-          fontSize="large"
-          style={{ color: "white", marginRight: "15px" }}
-        />
+      <Container className="d-flex flex-wrap">
         <Navbar.Brand href="/">
+          <BookmarkAddedIcon
+            fontSize="large"
+            style={{ color: "white", marginRight: "15px" }}
+          />
           <span className="brand fs-4">Book Notes</span>
         </Navbar.Brand>
         <Nav className="me-auto">
