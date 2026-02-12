@@ -23,7 +23,7 @@ export const getBooks = async (req, res) => {
 export const searchBooks = async (req, res) => {
   const query = req.body.search;
   try {
-    const result = await axios.get(openLibraryUrl, { params: { q: query } });
+    const result = await axios.get(openLibraryUrl, { params: { q: query, limit: 10 } });
     res.json(result.data);
   } catch (error) {
     console.error("Error fetching data from Open Library API:", error);

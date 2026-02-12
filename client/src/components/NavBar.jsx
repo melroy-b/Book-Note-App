@@ -1,10 +1,11 @@
+import { useState } from "react";
+import debounce from "../hooks/useDebounce";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import SvgIcon from "@mui/icons-material/Search";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 
 const Search = styled("div")(({ theme }) => ({
@@ -52,6 +53,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavBar = () => {
+  const [searchText, setSearchText] = useState("");
+
+  function handleDebounce(value) {}
+
   return (
     <Navbar style={{ backgroundColor: "#773e3e" }} data-bs-theme="dark">
       <Container className="d-flex flex-wrap">
@@ -62,19 +67,27 @@ const NavBar = () => {
           />
           <span className="brand fs-4">Book Notes</span>
         </Navbar.Brand>
+
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/library">Library</Nav.Link>
           <Nav.Link href="/contact">Contact</Nav.Link>
+          <Nav.Link href="/library">Library</Nav.Link>
         </Nav>
+
         <Search>
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
+
           <StyledInputBase
             placeholder="Search Books"
             inputProps={{ "aria-label": "search" }}
             id="navbar-search-input"
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+              console.log(searchText);
+            }}
           />
         </Search>
       </Container>
