@@ -25,13 +25,19 @@ export const getBooks = async (req, res) => {
 // Search books from external API (Open Library) with search query
 export const searchBooks = async (req, res) => {
   const query = req.query.q?.trim();
+  console.log("Search query:", query);
+
+  if (!query) {
+    return res.status(400).json({ error: "Query parameter 'q' is required" });
+  }
+
   try {
-    const result = await axios.get(openLibraryUrl, { params: { q: query, limit: 10 } });
+    const result = await axios.get(openLibraryUrl, {
+      params: { q: query, limit: 10 },
+    });
     res.status(200).json(result.data);
   } catch (error) {
     console.error("Error fetching data from Open Library API:", error);
     res.status(500).json({ error: "Failed to fetch data from external API" });
   }
 };
-
-
