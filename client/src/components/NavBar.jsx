@@ -61,6 +61,8 @@ const NavBar = () => {
   const [results, loading, showDropdown, setShowDropdown] =
     useDebounce(searchText);
 
+  const dropdownStyle = { padding: "10px 10px" };
+
   return (
     <Navbar style={{ backgroundColor: "#773e3e" }} data-bs-theme="dark">
       <Container className="d-flex flex-wrap">
@@ -100,26 +102,28 @@ const NavBar = () => {
             }}
           />
 
-          <div
-            style={{
-              position: "absolute",
-              top: "110%",
-              left: 0,
-              right: 0,
-              background: "#fff",
-              color: "#222",
-              borderRadius: "6px",
-              boxShadow: "0 6px 18px rgba(0,0,0,0.2)",
-              zIndex: 9999,
-              maxHeight: "280px",
-              overflowY: "auto",
-            }}
-          >
-            {loading && <div style={{ padding: "10px 10px" }}>Searching..</div>}
-            {!loading && results.length && (
-              <div style={{ padding: "10px 10px" }}>Searching..</div>
-            )}
-          </div>
+          {showDropdown && (
+            <div
+              style={{
+                position: "absolute",
+                top: "110%",
+                left: 0,
+                right: 0,
+                background: "#fff",
+                color: "#222",
+                borderRadius: "6px",
+                boxShadow: "0 6px 18px rgba(0,0,0,0.2)",
+                zIndex: 9999,
+                maxHeight: "280px",
+                overflowY: "auto",
+              }}
+            >
+              {loading && <div style={dropdownStyle}>Searching..</div>}
+              {!loading && results.length == 0 && (
+                <div style={dropdownStyle}>No items match your search</div>
+              )}
+            </div>
+          )}
         </Search>
       </Container>
     </Navbar>
