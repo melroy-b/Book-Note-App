@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
+console.log("API URL:", API_URL);
 
 const useBookSearch = (debouncedText) => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -8,7 +9,7 @@ const useBookSearch = (debouncedText) => {
   const [loading, setLoading] = useState(true);
 
   const controller = new AbortController();
-
+  
   useEffect(() => {
     const runSearch = async () => {
       if (!debouncedText) {
@@ -23,10 +24,10 @@ const useBookSearch = (debouncedText) => {
           `${API_URL}/api/books/search?q=${encodeURIComponent(debouncedText)}`,
           {
             signal: controller.signal,
-          },
+          }
         );
         const data = await response.json();
-        console.log(data);
+        console.log("Search Results:", data);
       } catch (error) {
         if (error.name !== "AbortError") {
           console.error("Search failed:", error);
@@ -43,7 +44,7 @@ const useBookSearch = (debouncedText) => {
     return () => controller.abort();
   }, [debouncedText]);
 
-  return (results, loading, showDropdown, setShowDropdown);
+  return [results, loading, showDropdown, setShowDropdown];
 };
 
 export default useBookSearch;

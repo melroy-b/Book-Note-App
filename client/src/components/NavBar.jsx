@@ -57,9 +57,10 @@ const NavBar = () => {
   const [searchText, setSearchText] = useState("");
 
   // Custom hooks
-  const [debouncedText, setDebouncedText] = useDebounce(searchText);
+  const debouncedText = useDebounce(searchText, 350);
+  console.log("Debounced Text:", debouncedText);
   const [results, loading, showDropdown, setShowDropdown] =
-    useDebounce(searchText);
+    useBookSearch(debouncedText);
 
   const dropdownStyle = { padding: "10px 10px" };
 
@@ -92,9 +93,8 @@ const NavBar = () => {
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
-              console.log(searchText);
             }}
-            onfocus={() => setShowDropdown(results.length > 0)}
+            onFocus={() => setShowDropdown(results.length > 0)}
             onBlur={() => {
               setTimeout(() => {
                 setShowDropdown(false);
@@ -122,6 +122,15 @@ const NavBar = () => {
               {!loading && results.length == 0 && (
                 <div style={dropdownStyle}>No items match your search</div>
               )}
+              {results.map((book) => (
+                <a
+                  key={book.id}
+                  href={`/book/${book.id}`}
+                  style={{ display: "block", padding: "10px 10px" }}
+                >
+                  {book.title}
+                </a>
+              ))}
             </div>
           )}
         </Search>
