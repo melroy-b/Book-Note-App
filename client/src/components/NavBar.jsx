@@ -1,5 +1,6 @@
 import { useState } from "react";
-import debounce from "../hooks/useDebounce";
+import useDebounce from "../hooks/useDebounce";
+import useBookSearch from "../hooks/useBookSearch";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -55,7 +56,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const NavBar = () => {
   const [searchText, setSearchText] = useState("");
 
-  function handleDebounce(value) {}
+  // Custom hooks
+  const [debouncedText, setDebouncedText] = useDebounce(searchText);
+  const [results, loading, showDropdown, setShowDropdown] =
+    useDebounce(searchText);
 
   return (
     <Navbar style={{ backgroundColor: "#773e3e" }} data-bs-theme="dark">
@@ -88,7 +92,34 @@ const NavBar = () => {
               setSearchText(e.target.value);
               console.log(searchText);
             }}
+            onfocus={() => setShowDropdown(results.length > 0)}
+            onBlur={() => {
+              setTimeout(() => {
+                setShowDropdown(false);
+              }, 150);
+            }}
           />
+
+          <div
+            style={{
+              position: "absolute",
+              top: "110%",
+              left: 0,
+              right: 0,
+              background: "#fff",
+              color: "#222",
+              borderRadius: "6px",
+              boxShadow: "0 6px 18px rgba(0,0,0,0.2)",
+              zIndex: 9999,
+              maxHeight: "280px",
+              overflowY: "auto",
+            }}
+          >
+            {loading && <div style={{ padding: "10px 10px" }}>Searching..</div>}
+            {!loading && results.length && (
+              <div style={{ padding: "10px 10px" }}>Searching..</div>
+            )}
+          </div>
         </Search>
       </Container>
     </Navbar>
