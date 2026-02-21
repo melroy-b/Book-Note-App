@@ -33,7 +33,7 @@ export const searchBooks = async (req, res) => {
 
   try {
     const result = await axios.get(openLibraryUrl, {
-      params: { q: query, limit: 10 },
+      params: { q: query, fields: "cover_i,title,author_name,author_key", limit: 10 },
     });
     res.status(200).json(result.data);
   } catch (error) {
