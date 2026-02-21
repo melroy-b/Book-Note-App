@@ -47,7 +47,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
       width: "12ch",
       "&:focus": {
-        width: "20ch",
+        width: "30ch",
       },
     },
   },
@@ -58,7 +58,6 @@ const NavBar = () => {
 
   // Custom hooks
   const debouncedText = useDebounce(searchText, 350);
-  console.log("Debounced Text:", debouncedText);
   const [results, loading, showDropdown, setShowDropdown] =
     useBookSearch(debouncedText);
 
@@ -109,12 +108,13 @@ const NavBar = () => {
                 top: "110%",
                 left: 0,
                 right: 0,
-                background: "#fff",
+                background: "#ffffff",
+                backgroundColor: "#e7e4e4",
                 color: "#222",
                 borderRadius: "6px",
                 boxShadow: "0 6px 18px rgba(0,0,0,0.2)",
                 zIndex: 9999,
-                maxHeight: "280px",
+                maxHeight: "380px",
                 overflowY: "auto",
               }}
             >
@@ -122,15 +122,46 @@ const NavBar = () => {
               {!loading && results.length == 0 && (
                 <div style={dropdownStyle}>No items match your search</div>
               )}
-              {results.map((book) => (
-                <a
-                  key={book.id}
-                  href={`/book/${book.id}`}
-                  style={{ display: "block", padding: "10px 10px" }}
-                >
-                  {book.title}
-                </a>
-              ))}
+              {!loading &&
+                results.map((book) => (
+                  <a
+                    className="d-flex"
+                    key={book.id}
+                    href={`/book/${book.id}`}
+                    style={{
+                      display: "block",
+                      padding: "10px 10px",
+                      textDecoration: "none",
+                      color: "black",
+                      fontSize: "1em",
+                      borderBottom: "1px solid #9b9595",
+                    }}
+                  >
+                    <img
+                      src={
+                        book?.cover_i
+                          ? `https://covers.openlibrary.org/b/id/${book.cover_i}-S.jpg`
+                          : "https://dummyimage.com/80x100/cccccc/000000&text=No+Cover"
+                      }
+                      alt="book cover"
+                      style={{
+                        padding: "5px",
+                        width: "80px",
+                        height: "100px",
+                        objectFit: "fill",
+                        borderRadius: "5px",
+                      }}
+                    />
+                    <div className="p-2">
+                      <div style={{ fontWeight: "bold" }}>{book.title}</div>
+                      <div
+                        style={{ fontWeight: "lighter", fontSize: "0.9rem" }}
+                      >
+                        by {book.author_name[0]}
+                      </div>
+                    </div>
+                  </a>
+                ))}
             </div>
           )}
         </Search>
