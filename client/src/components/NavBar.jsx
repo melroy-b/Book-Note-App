@@ -1,6 +1,7 @@
 import { useState } from "react";
-import useDebounce from "../hooks/useDebounce";
-import useBookSearch from "../hooks/useBookSearch";
+import { Link } from "react-router-dom";
+
+// MUI components
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -8,6 +9,10 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
+
+// Custom hooks
+import useDebounce from "../hooks/useDebounce";
+import useBookSearch from "../hooks/useBookSearch";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -47,11 +52,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
       width: "12ch",
       "&:focus": {
-        width: "30ch",
+        width: "35ch",
       },
     },
   },
 }));
+
+const filterBookKey = (key) => {
+  // Extract the ID from the key, which is in the format "/works/OL12345W"
+  const match = key.match(/\/works\/OL\d+W/);
+  const splitKey = match[0].split("/").pop();
+  console.log("Filtering book key:", key, "->", splitKey);
+  return splitKey; // Return the matched ID or the original key if no match
+};
 
 const NavBar = () => {
   const [searchText, setSearchText] = useState("");
@@ -93,7 +106,13 @@ const NavBar = () => {
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
-            onFocus={() => setShowDropdown(results.length > 0)}
+            // Show dropdown on focus after a delay if there are results, otherwise hide it
+            onFocus={() => {
+              setTimeout(() => {
+                setShowDropdown(results.length > 0);
+              }, 200);
+            }}
+            // Delay hiding the dropdown to allow click events on dropdown items
             onBlur={() => {
               setTimeout(() => {
                 setShowDropdown(false);
@@ -111,10 +130,11 @@ const NavBar = () => {
                 background: "#ffffff",
                 backgroundColor: "#e7e4e4",
                 color: "#222",
+                border: "1px solid #827e7e",
                 borderRadius: "6px",
                 boxShadow: "0 6px 18px rgba(0,0,0,0.2)",
                 zIndex: 9999,
-                maxHeight: "380px",
+                maxHeight: "400px",
                 overflowY: "auto",
               }}
             >
@@ -124,43 +144,54 @@ const NavBar = () => {
               )}
               {!loading &&
                 results.map((book) => (
-                  <a
+                  <Link
                     className="d-flex"
-                    key={book.id}
-                    href={`/book/${book.id}`}
+                    key={filterBookKey(book.key)}
+                    to={`/book/${encodeURIComponent(filterBookKey(book.key))}`}
                     style={{
                       display: "block",
-                      padding: "10px 10px",
+                      padding: "5px",
                       textDecoration: "none",
                       color: "black",
                       fontSize: "1em",
                       borderBottom: "1px solid #9b9595",
                     }}
                   >
-                    <img
-                      src={
-                        book?.cover_i
-                          ? `https://covers.openlibrary.org/b/id/${book.cover_i}-S.jpg`
-                          : "https://dummyimage.com/80x100/cccccc/000000&text=No+Cover"
-                      }
-                      alt="book cover"
+                    <div
                       style={{
                         padding: "5px",
-                        width: "80px",
-                        height: "100px",
-                        objectFit: "fill",
+                        width: "70px",
+                        height: "80px",
                         borderRadius: "5px",
+                        flexShrink: 0,
                       }}
-                    />
-                    <div className="p-2">
+                    >
+                      <img
+                        src={
+                          book?.cover_i
+                            ? `https://covers.openlibrary.org/b/id/${book.cover_i}-S.jpg`
+                            : "https://dummyimage.com/80x100/cccccc/000000&text=No+Cover"
+                        }
+                        alt="book cover"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "fill",
+                        }}
+                      />
+                    </div>
+                    <div style={{ paddingLeft: "2px" }}>
                       <div style={{ fontWeight: "bold" }}>{book.title}</div>
                       <div
                         style={{ fontWeight: "lighter", fontSize: "0.9rem" }}
                       >
-                        by {book.author_name[0]}
+                        by{" "}
+                        {Array.isArray(book?.author_name)
+                          ? book.author_name[0]
+                          : "Unknown Author"}
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 ))}
             </div>
           )}
