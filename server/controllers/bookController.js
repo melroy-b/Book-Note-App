@@ -33,11 +33,35 @@ export const searchBooks = async (req, res) => {
 
   try {
     const result = await axios.get(openLibraryUrl, {
-      params: { q: query, fields: "cover_i,title,author_name,author_key", limit: 10 },
+      params: {
+        q: query,
+        fields: "key,cover_i,title,author_name",
+        limit: 10,
+      },
     });
     res.status(200).json(result.data);
   } catch (error) {
     console.error("Error fetching data from Open Library API:", error);
     res.status(500).json({ error: "Failed to fetch data from external API" });
+  }
+};
+
+// Get book details from external API (Open Library) with book ID
+export const getBookDetails = async (req, res) => {
+  const bookId = req.params.id;
+  if (!bookId) {
+    return res.status(400).json({ error: "Book ID is required" });
+  }
+
+  try {
+    const result = await axios.get(
+      `http://openlibrary.org/works/${bookId}.json`
+    );
+    res.status(200).json(result.data);
+  } catch (error) {
+    console.error("Error fetching book details:", error);
+    res
+      .status(500)
+      .json({ error: "Failed to fetch book details from external API" });
   }
 };
