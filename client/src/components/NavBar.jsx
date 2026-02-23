@@ -8,7 +8,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
+import BrandLogo from "../assets/journal-bookmark-fill.svg";
 
 // Custom hooks
 import useDebounce from "../hooks/useDebounce";
@@ -80,9 +80,15 @@ const NavBar = () => {
     <Navbar style={{ backgroundColor: "#773e3e" }} data-bs-theme="dark">
       <Container className="d-flex flex-wrap">
         <Navbar.Brand href="/">
-          <BookmarkAddedIcon
-            fontSize="large"
-            style={{ color: "white", marginRight: "15px" }}
+          <img
+            src={BrandLogo}
+            alt="Brand logo"
+            style={{
+              filter: "invert(1)",
+              height: "40px",
+              width: "40px",
+              marginRight: "15px",
+            }}
           />
           <span className="brand fs-4">Book Notes</span>
         </Navbar.Brand>
@@ -121,23 +127,7 @@ const NavBar = () => {
           />
 
           {showDropdown && (
-            <div
-              style={{
-                position: "absolute",
-                top: "110%",
-                left: 0,
-                right: 0,
-                background: "#ffffff",
-                backgroundColor: "#e7e4e4",
-                color: "#222",
-                border: "1px solid #827e7e",
-                borderRadius: "6px",
-                boxShadow: "0 6px 18px rgba(0,0,0,0.2)",
-                zIndex: 9999,
-                maxHeight: "400px",
-                overflowY: "auto",
-              }}
-            >
+            <div className="nav-search-dropdown">
               {loading && <div style={dropdownStyle}>Searching..</div>}
               {!loading && results.length == 0 && (
                 <div style={dropdownStyle}>No items match your search</div>
@@ -170,7 +160,7 @@ const NavBar = () => {
                         src={
                           book?.cover_i
                             ? `https://covers.openlibrary.org/b/id/${book.cover_i}-S.jpg`
-                            : "https://dummyimage.com/80x100/cccccc/000000&text=No+Cover"
+                            : "https://dummyimage.com/70x80/cccccc/000000&text=No+Cover"
                         }
                         alt="book cover"
                         style={{

@@ -11,3 +11,18 @@ h3,
   font-family: "Playfair Display", serif;
   letter-spacing: 0.02em;
 }
+
+.nav-search-dropdown {
+  position: absolute;
+    top: 110%;
+    left: 0;
+    right: 0;
+    background-color: #e7e4e4;
+    color: #222;
+    border: 1px solid #827e7e;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    max-height: 400px;
+    overflow-y: auto;
+}
