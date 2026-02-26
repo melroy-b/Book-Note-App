@@ -12,7 +12,7 @@ const Hero = () => {
 
   return (
     <div>
-      <div className="px-4 py-5 my-2 text-center">
+      <div className="px-4 pt-5 text-center">
         <h1 className="display-5 fw-bold text-body-emphasis">
           Make the most of your reading experience
         </h1>
