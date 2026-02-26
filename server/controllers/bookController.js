@@ -2,8 +2,7 @@ import axios from "axios";
 import db from "../db/index.js";
 
 // Open Library API base URL
-const openLibraryUrl = "http://openlibrary.org/search.json";
-const openLibraryWorkURL = "http://openlibrary.org/works/"
+const openLibraryUrl = "http://openlibrary.org/";
 
 // Get books from database for a user
 export const getBooks = async (req, res) => {
@@ -33,7 +32,7 @@ export const searchBooks = async (req, res) => {
   }
 
   try {
-    const result = await axios.get(openLibraryUrl, {
+    const result = await axios.get(`${openLibraryUrl}search.json`, {
       params: {
         q: query,
         fields: "key,cover_i,title,author_name",
@@ -56,7 +55,7 @@ export const getBookDetails = async (req, res) => {
 
   try {
     const result = await axios.get(
-      `${openLibraryWorkURL}${bookId}.json`
+      `${openLibraryUrl}works/${bookId}.json`
     );
     res.status(200).json(result.data);
   } catch (error) {

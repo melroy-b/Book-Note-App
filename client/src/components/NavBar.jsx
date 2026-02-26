@@ -62,7 +62,6 @@ const filterBookKey = (key) => {
   // Extract the ID from the key, which is in the format "/works/OL12345W"
   const match = key.match(/\/works\/OL\d+W/);
   const splitKey = match[0].split("/").pop();
-  console.log("Filtering book key:", key, "->", splitKey);
   return splitKey; // Return the matched ID or the original key if no match
 };
 

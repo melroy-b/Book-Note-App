@@ -4,12 +4,11 @@ const API_URL = import.meta.env.VITE_API_URL;
 console.log("API URL:", API_URL);
 
 const useBookSearch = (debouncedText) => {
-  
   const controller = new AbortController();
   const [showDropdown, setShowDropdown] = useState(false);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     const runSearch = async () => {
       if (!debouncedText) {
@@ -28,10 +27,9 @@ const useBookSearch = (debouncedText) => {
         );
         const data = await response.json();
         const docs = Array.isArray(data?.docs) ? data.docs : [];
-        console.log("Search Results:", docs);
         setResults(docs);
         setShowDropdown(true);
-      } catch (error) { 
+      } catch (error) {
         if (error.name !== "AbortError") {
           console.error("Search failed:", error);
           setResults([]);
