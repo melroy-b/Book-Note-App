@@ -8,6 +8,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import Box from "@mui/material/Box";
 import BrandLogo from "../assets/journal-bookmark-fill.svg";
 
 // Custom hooks
@@ -89,7 +90,11 @@ const NavBar = () => {
   const dropdownStyle = { padding: "10px 10px" };
 
   return (
-    <Navbar style={{ backgroundColor: "#773e3e" }} data-bs-theme="dark">
+    <Navbar
+      className="navbar"
+      style={{ backgroundColor: "#773e3e" }}
+      data-bs-theme="dark"
+    >
       <Container className="d-flex flex-wrap">
         <Navbar.Brand>
           <Link className="nav-link brand" to="/">
@@ -136,6 +141,12 @@ const NavBar = () => {
                 setShowDropdown(results.length > 0);
               }, 250);
             }}
+            // Delay hiding the dropdown to allow click events on dropdown items
+            onBlur={() => {
+              setTimeout(() => {
+                setShowDropdown(false);
+              }, 150);
+            }}
           />
 
           {showDropdown && (
@@ -161,8 +172,8 @@ const NavBar = () => {
                       borderBottom: "1px solid #9b9595",
                     }}
                   >
-                    <div
-                      style={{
+                    <Box
+                      sx={{
                         padding: "5px",
                         width: "70px",
                         height: "80px",
@@ -183,7 +194,7 @@ const NavBar = () => {
                           objectFit: "fill",
                         }}
                       />
-                    </div>
+                    </Box>
                     <div style={{ paddingLeft: "2px" }}>
                       <div style={{ fontWeight: "bold" }}>{book.title}</div>
                       <div

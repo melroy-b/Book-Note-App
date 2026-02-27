@@ -3,8 +3,7 @@ import { useState, useEffect } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const useBookDetail = (id) => {
-  const controller = new AbortController();
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState({});
 
   useEffect(() => {
     const controller = new AbortController();
@@ -28,7 +27,7 @@ const useBookDetail = (id) => {
 
     searchBookSummary();
 
-    return () => controller.abort;
+    return () => controller.abort();
   }, [id]);
 
   return results;
