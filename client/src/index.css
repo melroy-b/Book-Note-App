@@ -26,3 +26,8 @@ h3,
     max-height: 400px;
     overflow-y: auto;
 }
+
+.nav-link {
+  text-decoration: none;
+  color: white;
+}

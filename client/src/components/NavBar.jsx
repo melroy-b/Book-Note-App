@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // MUI components
@@ -58,47 +58,68 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const filterBookKey = (key) => {
+const filterBookKey = (key = "") => {
   // Extract the ID from the key, which is in the format "/works/OL12345W"
   const match = key.match(/\/works\/OL\d+W/);
-  const splitKey = match[0].split("/").pop();
-  return splitKey; // Return the matched ID or the original key if no match
+  return match?.[0].split("/").pop() ?? key; // Return the matched ID or the original key if no match
 };
 
 const NavBar = () => {
   const [searchText, setSearchText] = useState("");
+  const searchRef = useRef(null);
 
   // Custom hooks
   const debouncedText = useDebounce(searchText, 350);
   const [results, loading, showDropdown, setShowDropdown] =
     useBookSearch(debouncedText);
 
+  useEffect(() => {
+    const handleOutsidePointer = (e) => {
+      if (!searchRef.current?.contains(e.target)) {
+        console.log("Outside pointer useEffect accessed");
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", handleOutsidePointer);
+    return () =>
+      document.removeEventListener("pointerdown", handleOutsidePointer);
+  }, [setShowDropdown]);
+
   const dropdownStyle = { padding: "10px 10px" };
 
   return (
     <Navbar style={{ backgroundColor: "#773e3e" }} data-bs-theme="dark">
       <Container className="d-flex flex-wrap">
-        <Navbar.Brand href="/">
-          <img
-            src={BrandLogo}
-            alt="Brand logo"
-            style={{
-              filter: "invert(1)",
-              height: "40px",
-              width: "40px",
-              marginRight: "15px",
-            }}
-          />
-          <span className="brand fs-4">Book Notes</span>
+        <Navbar.Brand>
+          <Link className="nav-link brand" to="/">
+            <img
+              src={BrandLogo}
+              alt="Brand logo"
+              style={{
+                filter: "invert(1)",
+                height: "40px",
+                width: "40px",
+                marginRight: "15px",
+              }}
+            />
+            <span className="brand fs-4">Book Notes</span>
+          </Link>
         </Navbar.Brand>
 
         <Nav className="me-auto">
-          <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/contact">Contact</Nav.Link>
-          <Nav.Link href="/library">Library</Nav.Link>
+          <Link className="nav-link child" to="/">
+            Home
+          </Link>
+          <Link className="nav-link child" to="/contact">
+            Contact
+          </Link>
+          <Link className="nav-link child" to="/library">
+            Library
+          </Link>
         </Nav>
 
-        <Search>
+        <Search ref={searchRef}>
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
@@ -108,20 +129,12 @@ const NavBar = () => {
             inputProps={{ "aria-label": "search" }}
             id="navbar-search-input"
             value={searchText}
-            onChange={(e) => {
-              setSearchText(e.target.value);
-            }}
-            // Show dropdown on focus after a delay if there are results, otherwise hide it
+            onChange={(e) => setSearchText(e.target.value)}
+            // Show dropdown on focus after delay to match the search UI/UX
             onFocus={() => {
               setTimeout(() => {
                 setShowDropdown(results.length > 0);
-              }, 200);
-            }}
-            // Delay hiding the dropdown to allow click events on dropdown items
-            onBlur={() => {
-              setTimeout(() => {
-                setShowDropdown(false);
-              }, 150);
+              }, 250);
             }}
           />
 
@@ -137,6 +150,8 @@ const NavBar = () => {
                     className="d-flex"
                     key={filterBookKey(book.key)}
                     to={`/book/${encodeURIComponent(filterBookKey(book.key))}`}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => setShowDropdown(false)}
                     style={{
                       display: "block",
                       padding: "5px",
