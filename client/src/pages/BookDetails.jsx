@@ -1,5 +1,3 @@
-import React, { use } from "react";
-import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useBookDetail from "../hooks/useBookDetail";
 import { styled } from "@mui/material/styles";
@@ -11,7 +9,8 @@ const BookDetails = () => {
   const { id } = useParams();
 
   //Custom hooks
-  const results = useBookDetail(id);
+  const bookDetail = useBookDetail(id);
+  console.log("Book Detail:", bookDetail);
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: "#fff",
@@ -24,74 +23,67 @@ const BookDetails = () => {
     }),
   }));
 
+  function extractBookDescription(bookDetail) {
+    const description =
+      typeof bookDetail?.description === "string"
+        ? bookDetail.description
+        : (bookDetail.description?.value ?? "No description available.");
+    return description;
+  }
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, md: 5, lg: 4 }}>
-          <Item><img src="" alt="" /></Item>
+    <Box sx={{ flexGrow: 1, padding: "20px" }}>
+      <Grid container spacing={1}>
+        <Grid size={{ xs: 12, md: 5, lg: 3 }}>
+          <Item>
+            <Box
+              sx={{
+                padding: "10px",
+                justifyItems: "center",
+                border: "1px solid #dbd2d2",
+                borderRadius: "5px",
+              }}
+            >
+              <Box
+                sx={{
+                  padding: "5px",
+                  width: "200px",
+                  height: "300px",
+                  borderRadius: "5px",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <img
+                  src={
+                    bookDetail?.covers?.length > 0
+                      ? `https://covers.openlibrary.org/b/id/${bookDetail.covers[0]}-M.jpg`
+                      : "https://dummyimage.com/150x200/cccccc/000000&text=No+Cover"
+                  }
+                  alt="book-cover-main"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+            </Box>
+          </Item>
         </Grid>
-        <Grid container spacing={4} size={{ xs: 12, md: 7, lg: 8 }}>
-          <Grid size={{ xs: 6, lg: 3 }}>
-            <Item>
-              <Box
-                id="category-a"
-                sx={{ fontSize: "12px", textTransform: "uppercase" }}
-              >
-                Category A
-              </Box>
-              <Box component="ul" aria-labelledby="category-a" sx={{ pl: 2 }}>
-                <li>Link 1.1</li>
-                <li>Link 1.2</li>
-                <li>Link 1.3</li>
-              </Box>
-            </Item>
-          </Grid>
-          <Grid size={{ xs: 6, lg: 3 }}>
-            <Item>
-              <Box
-                id="category-b"
-                sx={{ fontSize: "12px", textTransform: "uppercase" }}
-              >
-                Category B
-              </Box>
-              <Box component="ul" aria-labelledby="category-b" sx={{ pl: 2 }}>
-                <li>Link 2.1</li>
-                <li>Link 2.2</li>
-                <li>Link 2.3</li>
-              </Box>
-            </Item>
-          </Grid>
-          <Grid size={{ xs: 6, lg: 3 }}>
-            <Item>
-              <Box
-                id="category-c"
-                sx={{ fontSize: "12px", textTransform: "uppercase" }}
-              >
-                Category C
-              </Box>
-              <Box component="ul" aria-labelledby="category-c" sx={{ pl: 2 }}>
-                <li>Link 3.1</li>
-                <li>Link 3.2</li>
-                <li>Link 3.3</li>
-              </Box>
-            </Item>
-          </Grid>
-          <Grid size={{ xs: 6, lg: 3 }}>
-            <Item>
-              <Box
-                id="category-d"
-                sx={{ fontSize: "12px", textTransform: "uppercase" }}
-              >
-                Category D
-              </Box>
-              <Box component="ul" aria-labelledby="category-d" sx={{ pl: 2 }}>
-                <li>Link 4.1</li>
-                <li>Link 4.2</li>
-                <li>Link 4.3</li>
-              </Box>
-            </Item>
-          </Grid>
+        <Grid size={{ xs: 12, lg: 9 }}>
+          <Item>
+            <Box id="book-description">
+              <h2>{bookDetail?.title}</h2>
+              <p style={{ fontSize: "12px", textAlign: "left", maxLines: 3 }}>
+                {extractBookDescription(bookDetail)}
+              </p>
+            </Box>
+          </Item>
         </Grid>
+
         {/* <Grid
           container
           justifyContent="space-between"
