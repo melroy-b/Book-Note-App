@@ -162,7 +162,10 @@ const NavBar = () => {
                     key={filterBookKey(book.key)}
                     to={`/book/${encodeURIComponent(filterBookKey(book.key))}`}
                     onMouseDown={(e) => e.preventDefault()}
-                    onClick={() => setShowDropdown(false)}
+                    onClick={() => {
+                      setShowDropdown(false);
+                      setSearchText("");
+                    }}
                     style={{
                       display: "block",
                       padding: "5px",
