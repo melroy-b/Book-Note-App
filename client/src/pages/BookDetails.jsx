@@ -5,12 +5,18 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 
-const BookDetails = (props) => {
-  const { id } = useParams();
+const BookDetails = () => {
+  const { bookId, authorId } = useParams();
 
   //Custom hooks
-  const bookDetail = useBookDetail(id);
+  const bookDetail = useBookDetail(bookId, authorId);
   console.log("Book Detail:", bookDetail);
+  const {
+    description,
+    title,
+    author: { personal_name },
+    covers,
+  } = bookDetail;
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: "#fff",
@@ -23,12 +29,10 @@ const BookDetails = (props) => {
     }),
   }));
 
-  function extractBookDescription(bookDetail) {
-    const description =
-      typeof bookDetail?.description === "string"
-        ? bookDetail.description
-        : bookDetail.description?.value ?? "No description available.";
-    return description;
+  function extractBookDescription() {
+    return typeof description === "string"
+      ? description
+      : description?.value ?? "No description available.";
   }
 
   return (
@@ -112,11 +116,9 @@ const BookDetails = (props) => {
       </Grid> */}
       <Grid container className="rounded text-body-emphasis">
         <Grid className="p-3" size={{ lg: 9 }}>
-          <h1 className="display-6 fst-italic">{bookDetail?.title}</h1>{" "}
-          <p>
-            by {bookDetail?.authors?.map((author) => author.name).join(", ")}
-          </p>
-          <p className="my-3">{extractBookDescription(bookDetail)}</p>
+          <h1 className="display-6 fst-italic">{title}</h1>{" "}
+          <p>by {personal_name}</p>
+          <p className="my-3">{extractBookDescription()}</p>
           {/* <p className="lead mb-0">
             <a href="#" className="text-body-emphasis fw-bold">
               Continue reading...
@@ -124,23 +126,23 @@ const BookDetails = (props) => {
           </p> */}
         </Grid>
 
-        <Grid className="p-3" size={{ lg: 3 }}>
+        <Grid
+          className="p-3 d-flex justify-content-center align-items-center"
+          size={{ xs: 12, lg: 3 }}
+        >
           <Box
             sx={{
               padding: "5px",
               width: "200px",
               height: "300px",
               borderRadius: "5px",
-              justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
               flexDirection: "column",
             }}
           >
             <img
               src={
-                bookDetail?.covers?.length > 0
-                  ? `https://covers.openlibrary.org/b/id/${bookDetail.covers[0]}-M.jpg`
+                covers?.length > 0
+                  ? `https://covers.openlibrary.org/b/id/${covers[0]}-M.jpg`
                   : "https://dummyimage.com/150x200/cccccc/000000&text=No+Cover"
               }
               alt="book-cover-main"

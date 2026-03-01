@@ -2,20 +2,32 @@ import { useState, useEffect } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const useBookDetail = (id) => {
+const useBookDetail = (bookId, authorId) => {
   const [results, setResults] = useState({});
 
   useEffect(() => {
     const controller = new AbortController();
     const searchBookSummary = async () => {
-      if (!id) return;
       console.log("BookDetail page accessed: ", id);
+      if (!bookId) return;
+      console.log("BookDetail page accessed after ID: ", id);
 
       try {
-        const response = await fetch(`${API_URL}/api/books/book/${id}`, {
-          signal: controller.signal,
-        });
-        const data = await response.json();
+        const bookResponse = await fetch(
+          `${API_URL}/api/books/book/${bookId}/a/${authorId}`,
+          {
+            signal: controller.signal,
+          }
+        );
+        const data = await bookResponse.json();
+
+        // const authorResponse = await fetch(
+        //   `${API_URL}/api/books/author/${authorId}`,
+        //   {
+        //     signal: controller.signal,
+        //   }
+        // );
+
         console.log(data);
         setResults(data);
       } catch (error) {
@@ -28,7 +40,7 @@ const useBookDetail = (id) => {
     searchBookSummary();
 
     return () => controller.abort();
-  }, [id]);
+  }, [bookId, authorId]);
 
   return results;
 };
