@@ -2,31 +2,33 @@ import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 
 const DropDownLink = (props) => {
+  console.log("DropDownLink props:", props);
   const {
-    cover_i,
-    author_name,
-    title,
-    key: bookKey,
-    author_key: authorKey,
-  } = props.book;
+    cover_i = null,
+    title = "Untitled",
+    key: bookKey = "*",
+    author_name: rawAuthorName = [],
+    author_key: rawAuthorKey = [],
+  } = props?.book ?? {};
 
-  const filterBookAuthorKey = () => {
+  const author_name = Array.isArray(rawAuthorName)
+    ? rawAuthorName[0]
+    : "Unknown Author";
+  const authorKey = Array.isArray(rawAuthorKey) ? rawAuthorKey[0] : "";
+
+  const filterBookKey = () => {
     // Extract the ID from the key, which is in the format "/works/OL12345W"
     const bookMatch = bookKey.match(/\/works\/OL\d+W/);
 
-    return {
-      filterBookKey: bookMatch?.[0].split("/").pop() ?? "",
-      filterAuthorKey: authorKey[0] ?? "",
-    };
+    return bookMatch?.[0].split("/").pop() ?? "";
   };
-  const { filterBookKey, filterAuthorKey } = filterBookAuthorKey();
 
   return (
     <Link
       className="d-flex"
       to={`/book/${encodeURIComponent(
-        filterBookKey
-      )}/author/${encodeURIComponent(filterAuthorKey)}`}
+        filterBookKey(),
+      )}/author/${encodeURIComponent(authorKey)}`}
       onMouseDown={(e) => e.preventDefault()}
       onClick={() => {
         props.setShowDropdown(false);

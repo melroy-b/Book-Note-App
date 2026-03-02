@@ -153,7 +153,7 @@ const NavBar = () => {
                 results.map((book) => (
                   //Dropdown component that links to book details page with book key and author key as params
                   <DropDownLink
-                    key={book.key}
+                    key={book?.key}
                     book={book}
                     setShowDropdown={setShowDropdown}
                     setSearchText={setSearchText}
