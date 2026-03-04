@@ -10,6 +10,6 @@ const router = express.Router();
 //GET /api/books/search - Get all books (search for book in DB or external API)
 router.get("/search", searchBooks);
 //GET /api/books/user/:id - Get all book notes for a user
-router.get("/book/:bookId/a/:authorId", getBookDetails);
+router.get("/book/:bookId", getBookDetails);
 
 export default router;

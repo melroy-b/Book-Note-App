@@ -35,7 +35,7 @@ export const searchBooks = async (req, res) => {
     const result = await axios.get(`${openLibraryUrl}search.json`, {
       params: {
         q: query,
-        fields: "key,cover_i,title,author_name,author_key",
+        fields: "key,cover_i,title,author_name,author_key,cover_edition_key",
         limit: 10,
       },
     });
@@ -46,10 +46,11 @@ export const searchBooks = async (req, res) => {
   }
 };
 
-// Get book details from external API (Open Library) with book ID
+// Get book details from external API (Open Library) with book ID, author ID, and edition ID
 export const getBookDetails = async (req, res) => {
   const bookId = req.params.bookId;
-  const authorId = req.params.authorId;
+  const editionId = req.query.edition?.trim();
+  const authorId = req.query.author?.trim();
   if (!bookId && !authorId) {
     return res
       .status(400)
@@ -58,11 +59,12 @@ export const getBookDetails = async (req, res) => {
 
   try {
     const bookResult = await axios.get(`${openLibraryUrl}works/${bookId}.json`);
+    const bookPublishResult = await axios.get(`${openLibraryUrl}books/${editionId}.json`);
     const authorResult = await axios.get(
       `${openLibraryUrl}authors/${authorId}.json`
     );
 
-    const bookData = { ...bookResult.data, author: authorResult.data };
+    const bookData = { ...bookResult.data, author: authorResult.data, edition: bookPublishResult.data };
     console.log("Book Data:", bookData);
     res.status(200).json(bookData);
   } catch (error) {
