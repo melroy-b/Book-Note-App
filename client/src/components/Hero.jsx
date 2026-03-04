@@ -13,7 +13,7 @@ const Hero = () => {
   return (
     <div>
       <div className="px-4 pt-5 text-center">
-        <h1 className="display-5 fw-bold text-body-emphasis">
+        <h1 className="display-6 fw-bold text-body-emphasis">
           Make the most of your reading experience
         </h1>
         <div className="col-lg-6 mx-auto">
@@ -26,7 +26,7 @@ const Hero = () => {
             <Button
               className="hero-search-button"
               variant="contained"
-              //   className="btn btn-dark btn-lg px-4 gap-3"
+              //className="btn btn-dark btn-lg px-4 gap-3"
               type="button"
               onClick={handleSearchClick}
             >

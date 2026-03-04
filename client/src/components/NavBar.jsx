@@ -124,7 +124,7 @@ const NavBar = () => {
 
           <StyledInputBase
             placeholder="Search Books"
-            inputProps={{ "aria-label": "search" }}
+            inputProps={{ "aria-label": "search", autoComplete: "off" }}
             id="navbar-search-input"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
@@ -144,9 +144,13 @@ const NavBar = () => {
 
           {showDropdown && (
             <Box className="nav-search-dropdown">
-              {loading && <Box className="nav-search-dropdown__loading">Searching..</Box>}
+              {loading && (
+                <Box className="nav-search-dropdown__loading">Searching..</Box>
+              )}
               {!loading && results.length == 0 && (
-                <Box className="nav-search-dropdown__empty">No items match your search</Box>
+                <Box className="nav-search-dropdown__empty">
+                  No items match your search
+                </Box>
               )}
               {!loading &&
                 results.map((book) => (

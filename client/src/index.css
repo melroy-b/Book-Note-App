@@ -63,14 +63,10 @@ h3,
 
 /* Hero Items */
 .hero-search-button {
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-top: 1.25px;
-  padding-bottom: 1.25px;
-  border-radius: 2px;
-  text-transform: none;
-  font-size: 1rem;
-  font-weight: 600;
+  padding: 9px 19px !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  border-radius: 8px !important;
   background-color: #773e3e !important;
 }
 
