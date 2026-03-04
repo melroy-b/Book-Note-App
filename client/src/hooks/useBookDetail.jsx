@@ -2,32 +2,24 @@ import { useState, useEffect } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const useBookDetail = (bookId, authorId) => {
+const useBookDetail = (bookId, authorId, editionId) => {
   const [results, setResults] = useState({});
 
   useEffect(() => {
     const controller = new AbortController();
     const searchBookSummary = async () => {
-      if (!bookId || !authorId) return;
-      console.log("BookDetail page accessed:", { bookId, authorId });
+      if (!bookId) return;
 
       try {
         const bookResponse = await fetch(
-          `${API_URL}/api/books/book/${bookId}/a/${authorId}`,
+          `${API_URL}/api/books/book/${bookId}?author=${authorId}&edition=${editionId}`,
           {
             signal: controller.signal,
-          }
+          },
         );
         const data = await bookResponse.json();
 
-        // const authorResponse = await fetch(
-        //   `${API_URL}/api/books/author/${authorId}`,
-        //   {
-        //     signal: controller.signal,
-        //   }
-        // );
-
-        console.log(data);
+        console.log("Fetched book details:", data);
         setResults(data);
       } catch (error) {
         if (error.name !== "AbortError") {

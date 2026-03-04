@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 
 const DropDownLink = (props) => {
-  console.log("DropDownLink props:", props);
   const {
     cover_i = null,
     title = "Untitled",
