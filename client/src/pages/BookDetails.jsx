@@ -8,6 +8,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Button from "@mui/material/Button";
 
 const BookDetails = () => {
   const { bookId } = useParams();
@@ -65,12 +66,17 @@ const BookDetails = () => {
         <Grid className="p-3 border rounded flex-column" size={{ lg: 9 }}>
           <h1 className="display-6 fst-italic">{title}</h1>{" "}
           <p>
-            by {personal_name}
+            by{" "}
+            <a href={`https://openlibrary.org/authors/${authorId}`}>
+              {personal_name}
+            </a>
             <span style={{ fontWeight: "lighter" }}> ({revision})</span>
           </p>
           <p
             ref={descriptionRef}
-            className={`book-description my-3 ${isExpanded ? "book-description--expanded" : ""}`}
+            className={`book-description my-3 ${
+              isExpanded ? "book-description--expanded" : ""
+            }`}
           >
             {descriptionText}
           </p>
@@ -98,7 +104,9 @@ const BookDetails = () => {
             <Box className="book-meta__item">
               <span>Publisher</span>
               <a
-                href={`https://openlibrary.org/publishers/${encodeURIComponent(publishers[0] || "Unknown Publisher")}`}
+                href={`https://openlibrary.org/publishers/${encodeURIComponent(
+                  publishers[0] || "Unknown Publisher"
+                )}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -117,10 +125,10 @@ const BookDetails = () => {
         </Grid>
 
         <Grid
-          className="p-1 d-flex justify-content-center align-items-start border rounded"
+          className="p-1 flex-column justify-content-center border rounded"
           size={{ lg: 3 }}
         >
-          <Box className="cover-image__container">
+          <Box className="cover-image__container align-items-start">
             <img
               className="cover-image__item"
               src={
@@ -131,6 +139,7 @@ const BookDetails = () => {
               alt="book-cover-main"
             />
           </Box>
+          <Button variant="outlined">Outlined</Button>
         </Grid>
       </Grid>
     </Box>
