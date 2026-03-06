@@ -9,6 +9,8 @@ import Grid from "@mui/material/Grid";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Button from "@mui/material/Button";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import StarIcon from "@mui/icons-material/Star";
 
 const BookDetails = () => {
   const { bookId } = useParams();
@@ -63,39 +65,48 @@ const BookDetails = () => {
   return (
     <Box sx={{ flexGrow: 1, padding: "20px" }}>
       <Grid container className="rounded text-body-emphasis" spacing={1}>
-        <Grid className="p-3 border rounded flex-column" size={{ lg: 9 }}>
-          <h1 className="display-6 fst-italic">{title}</h1>{" "}
-          <p>
-            by{" "}
-            <a href={`https://openlibrary.org/authors/${authorId}`}>
-              {personal_name}
-            </a>
-            <span style={{ fontWeight: "lighter" }}> ({revision})</span>
-          </p>
-          <p
-            ref={descriptionRef}
-            className={`book-description my-3 ${
-              isExpanded ? "book-description--expanded" : ""
-            }`}
-          >
-            {descriptionText}
-          </p>
-          {canExpand && (
-            <button
-              className="read-more-btn"
-              onClick={() => setIsExpanded((prev) => !prev)}
-            >
-              {isExpanded ? (
-                <>
-                  Read Less <KeyboardArrowUpIcon />
-                </>
-              ) : (
-                <>
-                  Read More <KeyboardArrowDownIcon />
-                </>
-              )}
-            </button>
-          )}
+        <Grid
+          className="p-3 border rounded d-flex flex-column"
+          size={{ lg: 9 }}
+        >
+          <Box>
+            <h1 className="display-6 fst-italic">{title}</h1>{" "}
+            <p>
+              by{" "}
+              <a href={`https://openlibrary.org/authors/${authorId}`}>
+                {personal_name}
+              </a>
+              <span style={{ fontWeight: "lighter" }}> ({revision})</span>
+            </p>
+            <Box className="book-description__wrapper">
+              <p
+                ref={descriptionRef}
+                className={`book-description ${
+                  isExpanded ? "book-description--expanded" : ""
+                }`}
+              >
+                {descriptionText}
+                {canExpand && (
+                  <button
+                    className={
+                      isExpanded ? "read-more-btn--expanded" : "read-more-btn"
+                    }
+                    onClick={() => setIsExpanded((prev) => !prev)}
+                  >
+                    {isExpanded ? (
+                      <>
+                        Read Less <KeyboardArrowUpIcon />
+                      </>
+                    ) : (
+                      <>
+                        Read More <KeyboardArrowDownIcon />
+                      </>
+                    )}
+                  </button>
+                )}
+              </p>
+            </Box>
+          </Box>
           <Box className="book-meta__container">
             <Box className="book-meta__item">
               <span>Publish Date</span>
@@ -105,7 +116,7 @@ const BookDetails = () => {
               <span>Publisher</span>
               <a
                 href={`https://openlibrary.org/publishers/${encodeURIComponent(
-                  publishers[0] || "Unknown Publisher"
+                  publishers[0] || "Unknown Publisher",
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -125,10 +136,10 @@ const BookDetails = () => {
         </Grid>
 
         <Grid
-          className="p-1 flex-column justify-content-center border rounded"
-          size={{ lg: 3 }}
+          className="p-3 d-flex flex-column border rounded align-items-center"
+          size={{ xs: 12, lg: 3 }}
         >
-          <Box className="cover-image__container align-items-start">
+          <Box className="cover-image__container">
             <img
               className="cover-image__item"
               src={
@@ -139,7 +150,35 @@ const BookDetails = () => {
               alt="book-cover-main"
             />
           </Box>
-          <Button variant="outlined">Outlined</Button>
+          <Box className="d-flex gap-1 mb-1 pb-3 border-bottom">
+            <Button>
+              {Array.from({ length: 5 }, (_, index) => (
+                <StarIcon
+                  className={`star-${index + 1}`}
+                  sx={{
+                    color: "#bdbdbd",
+                    height: "32px",
+                    width: "32px",
+                    cursor: "pointer",
+                  }}
+                />
+              ))}
+            </Button>
+          </Box>
+          <Box className="d-flex gap-2">
+            <Button sx={{ color: "#414141" }} href="#">
+              <p>
+                <EditNoteIcon sx={{ height: "40px", width: "40px" }} />
+                Note
+              </p>
+            </Button>
+            <Button sx={{ color: "#414141" }} href="#">
+              <p>
+                <StarIcon sx={{ height: "40px", width: "40px" }} />
+                Rate
+              </p>
+            </Button>
+          </Box>
         </Grid>
       </Grid>
     </Box>

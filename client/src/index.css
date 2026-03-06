@@ -80,14 +80,16 @@ h3,
   width: 200px;
   height: 300px;
   border-radius: 5px;
-  flex-direction: column;
 }
 
 .cover-image__container .cover-image__item {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 5px;
+}
+
+.book-description__wrapper {
+  position: relative;
 }
 
 .book-description {
@@ -107,6 +109,21 @@ h3,
 }
 
 .read-more-btn {
+  position: absolute;
+  padding: 10px 0;
+  border: none;
+  left: 0;
+  right: 0;
+  width: 100%;
+  top: 90%;
+  text-align: left;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #447fd6;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.read-more-btn--expanded {
   margin-top: 0.25rem;
   padding: 0;
   border: 0;
@@ -128,7 +145,7 @@ h3,
   font-size: 0.9em;
 }
 
-.book-meta__item {
+.book-meta__item {  
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 9px;
