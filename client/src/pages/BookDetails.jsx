@@ -69,16 +69,20 @@ const BookDetails = () => {
           className="p-3 border rounded d-flex flex-column"
           size={{ lg: 9 }}
         >
-          <Box>
-            <h1 className="display-6 fst-italic">{title}</h1>{" "}
-            <p>
-              by{" "}
-              <a href={`https://openlibrary.org/authors/${authorId}`}>
-                {personal_name}
-              </a>
-              <span style={{ fontWeight: "lighter" }}> ({revision})</span>
-            </p>
-            <Box className="book-description__wrapper">
+          <Box className="book-description__wrapper">
+            {/* Book title and author section */}
+            <Box>
+              <h1 className="display-6 fst-italic">{title}</h1>{" "}
+              <p>
+                by{" "}
+                <a href={`https://openlibrary.org/authors/${authorId}`}>
+                  {personal_name}
+                </a>
+                <span style={{ fontWeight: "lighter" }}> ({revision})</span>
+              </p>
+            </Box>
+            {/* Book description section */}
+            <Box>
               <p
                 ref={descriptionRef}
                 className={`book-description ${
@@ -86,25 +90,23 @@ const BookDetails = () => {
                 }`}
               >
                 {descriptionText}
-                {canExpand && (
-                  <button
-                    className={
-                      isExpanded ? "read-more-btn--expanded" : "read-more-btn"
-                    }
-                    onClick={() => setIsExpanded((prev) => !prev)}
-                  >
-                    {isExpanded ? (
-                      <>
-                        Read Less <KeyboardArrowUpIcon />
-                      </>
-                    ) : (
-                      <>
-                        Read More <KeyboardArrowDownIcon />
-                      </>
-                    )}
-                  </button>
-                )}
               </p>
+              {canExpand && (
+                <button
+                  className="read-more-btn"
+                  onClick={() => setIsExpanded((prev) => !prev)}
+                >
+                  {isExpanded ? (
+                    <>
+                      Read Less <KeyboardArrowUpIcon />
+                    </>
+                  ) : (
+                    <>
+                      Read More <KeyboardArrowDownIcon />
+                    </>
+                  )}
+                </button>
+              )}
             </Box>
           </Box>
           <Box className="book-meta__container">
@@ -150,8 +152,8 @@ const BookDetails = () => {
               alt="book-cover-main"
             />
           </Box>
-          <Box className="d-flex gap-1 mb-1 pb-3 border-bottom">
-            <Button>
+          <Box className="d-flex gap-1 mb-1 pb-3 border-bottom background-color-transparent">
+            <button className="border-0 mt-2 background-color-transparent">
               {Array.from({ length: 5 }, (_, index) => (
                 <StarIcon
                   className={`star-${index + 1}`}
@@ -163,7 +165,7 @@ const BookDetails = () => {
                   }}
                 />
               ))}
-            </Button>
+            </button>
           </Box>
           <Box className="d-flex gap-2">
             <Button sx={{ color: "#414141" }} href="#">
