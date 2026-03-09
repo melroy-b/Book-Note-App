@@ -38,9 +38,9 @@ const BookCoverGrid = (props) => {
         <Box>
           <p
             ref={descriptionRef}
-            className={`book-description ${
+            className={`${canExpand ? "book-description--expandable" : ""} ${
               isExpanded ? "book-description--expanded" : ""
-            }`}
+            }`.trim()}
           >
             {props.descriptionText}
           </p>
