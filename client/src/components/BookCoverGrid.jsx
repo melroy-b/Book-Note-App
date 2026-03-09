@@ -44,13 +44,10 @@ const BookCoverGrid = (props) => {
         ))}
       </Box>
       <Box className="d-flex gap-2">
-        <AddNoteModal bookTitle={props.bookTitle} bookAuthor={props.bookAuthor} />
-        {/* <Button sx={{ color: "#414141" }} href="#">
-          <p style={{ margin: 0 }}>
-            <StarIcon sx={{ height: "40px", width: "40px" }} />
-            Rate
-          </p>
-        </Button> */}
+        <AddNoteModal
+          bookTitle={props.bookTitle}
+          bookAuthor={props.bookAuthor}
+        />
       </Box>
     </Grid>
   );
