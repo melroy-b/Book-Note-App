@@ -124,12 +124,20 @@ h3,
   padding: 0 5px;
 }
 
+.book-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .book-description--expandable {
   display: -webkit-box;
   -webkit-line-clamp: 4;
   line-clamp: 4;
   -webkit-box-orient: vertical;
-  /*overflow: hidden;
+  overflow: hidden;
   /* Keep top text fully visible and fade out near the Read More area */
   -webkit-mask-image: linear-gradient(
     to bottom,
