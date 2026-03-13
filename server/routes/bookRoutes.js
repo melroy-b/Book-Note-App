@@ -7,9 +7,10 @@ import {
 
 const router = express.Router();
 
-//GET /api/books/search - Get all books (search for book in DB or external API)
+// GET /api/books/search - Search books in DB or external API
 router.get("/search", searchBooks);
-//GET /api/books/user/:id - Get all book notes for a user
+
+// GET /api/books/book/:bookId - Get details of a specific book
 router.get("/book/:bookId", getBookDetails);
 
 export default router;
