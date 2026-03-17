@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import router from "./routes/bookRoutes.js";
+import db from "./db/index.js";
 
 import dotenv from "dotenv";
 dotenv.config();

@@ -69,7 +69,9 @@ export const getBookDetails = async (req, res) => {
       `${openLibraryUrl}authors/${authorId}.json`
     );
 
-    //This endpoint will only run if editionId and bookResult.data?.covers?.length > 0 are present, otherwise it will return an empty object. This is because the edition details are only relevant if there are publishing details available for the book and if yes, languages data present?. If there is no data, then there is no need to fetch the edition details, which can save time and resources.
+    //This endpoint will only run if editionId and bookResult.data?.languages?.length > 0 are present, otherwise it will return an empty object.
+    //This is because the edition details are only relevant if there are publishing details available for the book and if yes, languages data present?. 
+    //If there is no data, then there is no need to fetch the edition details, which can save time and resources.
 
     //edition details like publish date, publisher, number of pages, etc.
     let bookPublishResult = {};
