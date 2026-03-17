@@ -15,19 +15,19 @@ const BookCoverGrid = (props) => {
     message: "",
   });
 
-  const { postBookNote, loading } = usePostBookNote();
+  const { postBookNote, loading, success, error } = usePostBookNote();
   async function onSubmit(params) {
     const response = await postBookNote(params);
-    if (response.success) {
-      console.log("Note posted successfully:", response.data);
-    } else {
-      console.error("Failed to post note:", response.error);
-    }
+    // if (success) {
+    //   console.log("Note posted successfully:", response.data);
+    // } else {
+    //   console.error("Failed to post note:", error);
+    // }
 
     setSnackBar({
       open: true,
-      variant: response.success ? "success" : "error",
-      message: response.success ? "Note saved successfully" : response.error,
+      variant: success ? "success" : "error",
+      message: success ? "Note saved successfully into database" : error,
     });
     return response;
   }

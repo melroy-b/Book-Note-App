@@ -9,6 +9,7 @@ const usePostBookNote = () => {
 
   const postBookNote = async (payload) => {
     let postResponse = {};
+    let postData = {};
     try {
       setLoading(true);
       setSuccess(false);
@@ -20,7 +21,7 @@ const usePostBookNote = () => {
         body: JSON.stringify(payload),
       });
 
-      const postData = await postResponse.json();
+      postData = await postResponse.json();
       if (!postResponse.ok) {
         throw new Error(postData.message || "Failed to post note");
       }
@@ -36,6 +37,7 @@ const usePostBookNote = () => {
     } catch (error) {
       //console.log(postResponse);
       setError(error.message);
+      setSuccess(false);
       console.error("Error posting note:", error.message);
     } finally {
       setLoading(false);
@@ -49,7 +51,7 @@ const usePostBookNote = () => {
     }
   };
 
-  return { postBookNote, loading };
+  return { postBookNote, loading, success, error };
 };
 
 export default usePostBookNote;

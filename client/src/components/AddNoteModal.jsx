@@ -18,7 +18,7 @@ const AddNoteModal = (props) => {
   const [open, setOpen] = useState(false);
   const [noteContent, setNoteContent] = useState(props.initialNote ?? "");
   const [date, setDate] = useState(
-    props.date_read ? dayjs(props.date_read) : dayjs()
+    props.date_read ? dayjs(props.date_read) : null
   );
   const [error, setError] = useState("");
 
@@ -127,7 +127,7 @@ const AddNoteModal = (props) => {
               <DatePicker
                 label="When did you read it?"
                 disableFuture
-                value={date}
+                value={date ?? null}
                 onChange={(newValue) => {
                   setDate(newValue);
                 }}
