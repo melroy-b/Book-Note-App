@@ -34,24 +34,19 @@ const usePostBookNote = () => {
       setSuccess(true);
       console.log("Note submitted:", payload);
       // return postData;
+      return { success: true, error: "", data: postData };
     } catch (error) {
       //console.log(postResponse);
       setError(error.message);
       setSuccess(false);
       console.error("Error posting note:", error.message);
+      return { success: false, error: error.message };
     } finally {
       setLoading(false);
-      return {
-        success,
-        error,
-        data: postResponse?.ok
-          ? postData
-          : "Data corrupted / Page not available",
-      };
     }
   };
 
-  return { postBookNote, loading, success, error };
+  return { postBookNote, loading };
 };
 
 export default usePostBookNote;
