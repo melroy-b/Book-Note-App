@@ -20,12 +20,8 @@ const BookCoverGrid = (props) => {
     let response = {};
     try {
       response = await postBookNote(params);
-      // if (success) {
-      //   console.log("Note posted successfully:", response.data);
-      // } else {
-      //   console.error("Failed to post note:", error);
-      // }
       if (response.error != "") {
+        
         throw new Error(response.error);
       }
       if (response.success) {

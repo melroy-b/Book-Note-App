@@ -4,16 +4,12 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const usePostBookNote = () => {
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
 
   const postBookNote = async (payload) => {
     let postResponse = {};
     let postData = {};
     try {
       setLoading(true);
-      setSuccess(false);
-      setError("");
 
       postResponse = await fetch(`${API_URL}/api/books/notes`, {
         method: "POST",
@@ -23,7 +19,9 @@ const usePostBookNote = () => {
 
       postData = await postResponse.json();
       if (!postResponse.ok) {
-        throw new Error(postData.message || "Failed to post note");
+        throw new Error(`
+          ${postData.message || "Failed to post note"}:
+          ${postData.error ?? "UNKNOWN CODE"}`);
       }
 
       //For testing purpose
@@ -31,14 +29,10 @@ const usePostBookNote = () => {
       //   setTimeout(resolve, 1000);
       // });
 
-      setSuccess(true);
       console.log("Note submitted:", payload);
-      // return postData;
       return { success: true, error: "", data: postData };
     } catch (error) {
       //console.log(postResponse);
-      setError(error.message);
-      setSuccess(false);
       console.error("Error posting note:", error.message);
       return { success: false, error: error.message };
     } finally {

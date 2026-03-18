@@ -37,6 +37,6 @@ export const postUserNotes = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error posting data into database", error: error });
+      .json({ message: "Error posting data into database", error: error.code });
   }
 };
