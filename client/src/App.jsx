@@ -5,6 +5,7 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import BookDetails from "./pages/BookDetails.jsx";
+import MyBooks from "./pages/MyBooks.jsx";
 
 const App = () => {
   return (
@@ -14,7 +15,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/book/:bookId" element={<BookDetails />} />
-        {/*<Route path="/contact" element={<Contact />} /> */}
+        <Route path="/mybooks" element={<MyBooks />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

@@ -111,7 +111,7 @@ const NavBar = () => {
           <Link className="nav-link child" to="/contact">
             Contact
           </Link>
-          <Link className="nav-link child" to="/library">
+          <Link className="nav-link child" to="/mybooks">
             My Books
           </Link>
         </Nav>
