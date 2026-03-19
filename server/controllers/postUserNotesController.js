@@ -26,10 +26,11 @@ export const postUserNotes = async (req, res) => {
             [bookTitle, bookOLID, authorName, authorID]
           );
 
+    console.log(typeof dbBookID.id);
     //Create a new unique note with foreign key book.id and user.id
     await db.query(
       "INSERT INTO notes (user_id, book_id, content, date_read) VALUES ($1, $2, $3, $4);",
-      [1, parseInt(dbBookID.id), noteContent, date_read]
+      [1, dbBookID.id, noteContent, date_read]
     );
 
     console.log("server object: ", req.body);

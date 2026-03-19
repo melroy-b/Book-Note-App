@@ -18,7 +18,7 @@ const AddNoteModal = (props) => {
   const [open, setOpen] = useState(false);
   const [noteContent, setNoteContent] = useState(props.initialNote ?? "");
   const [date, setDate] = useState(
-    props.date_read ? dayjs(props.date_read) : null,
+    props.date_read ? dayjs(props.date_read) : null
   );
   const [error, setError] = useState("");
 
@@ -50,6 +50,7 @@ const AddNoteModal = (props) => {
 
     if (response.success) {
       setNoteContent("");
+      setDate(null);
       handleClose();
     }
   };
