@@ -7,6 +7,7 @@ CREATE TABLE users (
 CREATE TABLE books (
 	id SERIAL PRIMARY KEY,
 	title TEXT NOT NULL,
+	book_cover TEXT,
 	ol_id TEXT NOT NULL UNIQUE,
 	author_name TEXT,
 	author_key TEXT
