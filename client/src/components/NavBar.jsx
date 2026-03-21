@@ -8,6 +8,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import Box from "@mui/material/Box";
 import BrandLogo from "../assets/journal-bookmark-fill.svg";
@@ -164,6 +165,10 @@ const NavBar = () => {
             </Box>
           )}
         </Search>
+
+        <Button variant="contained" href="/login">
+          LogIn
+        </Button>
       </Container>
     </Navbar>
   );
