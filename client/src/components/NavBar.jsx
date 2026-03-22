@@ -11,6 +11,7 @@ import InputBase from "@mui/material/InputBase";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import BrandLogo from "../assets/journal-bookmark-fill.svg";
 
 // Custom hooks
@@ -166,9 +167,37 @@ const NavBar = () => {
           )}
         </Search>
 
-        <Button variant="contained" href="/login">
-          LogIn
-        </Button>
+        {/* Sign / Sign Up Buttons */}
+        <Stack direction="row" spacing={1} sx={{ px: 1 }}>
+          <Button
+            variant="text"
+            component={Link}
+            to={"/login"}
+            sx={{
+              color: "#ffff",
+              "&:hover": {
+                textUnderlineOffset: "5px",
+                textDecoration: "underline",
+              },
+            }}
+          >
+            Sign In
+          </Button>
+          <Button
+            variant="outlined"
+            component={Link}
+            to={"/register"}
+            sx={{
+              borderColor: "#ffff",
+              color: "#ffff",
+              "&:hover": {
+                backgroundColor: "rgba(189, 75, 41, 0.6)",
+              },
+            }}
+          >
+            Sign Up
+          </Button>
+        </Stack>
       </Container>
     </Navbar>
   );
