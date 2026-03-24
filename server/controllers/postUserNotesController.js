@@ -38,7 +38,7 @@ export const postUserNotes = async (req, res) => {
     );
 
     console.log("server object: ", req.body);
-    res.status(200).json("ok");
+    res.status(201).json("ok"); //Request created successful
   } catch (error) {
     res
       .status(500)
