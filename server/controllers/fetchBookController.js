@@ -5,8 +5,8 @@ import db from "../db/index.js";
 const openLibraryUrl = "http://openlibrary.org/";
 
 // Get books from database for a user
-export const getBooks = async (req, res) => {
-  const userId = req.params.id;
+export const getUserBooks = async (req, res) => {
+  const userId = req.params.userId;
   if (!userId) {
     return res
       .status(400)
@@ -14,9 +14,10 @@ export const getBooks = async (req, res) => {
   }
   try {
     const books = await db.query(
-      "SELECT * FROM notes JOIN books ON books.id = notes.book_id WHERE user_id = $1",
+      "SELECT * FROM notes JOIN books ON books.id = book_id WHERE user_id = $1",
       [userId]
     );
+    console.log(books.rows);
     res.json(books.rows);
   } catch (err) {
     console.error(err);
@@ -70,7 +71,7 @@ export const getBookDetails = async (req, res) => {
     );
 
     //This endpoint will only run if editionId and bookResult.data?.languages?.length > 0 are present, otherwise it will return an empty object.
-    //This is because the edition details are only relevant if there are publishing details available for the book and if yes, languages data present?. 
+    //This is because the edition details are only relevant if there are publishing details available for the book and if yes, languages data present?.
     //If there is no data, then there is no need to fetch the edition details, which can save time and resources.
 
     //edition details like publish date, publisher, number of pages, etc.

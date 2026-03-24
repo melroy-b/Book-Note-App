@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  getBooks,
+  getUserBooks,
   searchBooks,
   getBookDetails,
 } from "../controllers/fetchBookController.js";
@@ -12,6 +12,8 @@ const router = express.Router();
 router.get("/search", searchBooks);
 //GET /api/books/book/:bookId - Get book details using the book ID
 router.get("/book/:bookId", getBookDetails);
+//GET /api/books/:userId/fetch_books - Get saved books of user
+router.get("/:userId/fetch_books", getUserBooks);
 
 //POST /api/books/notes
 router.post("/notes", postUserNotes);
