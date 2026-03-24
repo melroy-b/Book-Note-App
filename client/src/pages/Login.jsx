@@ -3,7 +3,11 @@ import AuthForm from "../components/AuthForm";
 const Login = () => {
   return (
     <>
-      <AuthForm />
+      <AuthForm
+        CreateAccount={false}
+        HeaderText={"Sign In"}
+        BodyText={"Log in and access your books, notes, and reading progress."}
+      />
     </>
   );
 };

@@ -11,9 +11,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
-import XIcon from "@mui/icons-material/X";
+import AppleIcon from "@mui/icons-material/Apple";
 import { Link as RouterLink } from "react-router-dom";
 import BookLibrary from "../assets/book-library.jpg";
 
@@ -21,8 +20,8 @@ const AuthForm = (props) => {
   return (
     <Box>
       <Paper elevation={0}>
-        <Grid container>
-          <Grid
+        <Grid container justifyContent={"center"}>
+          {/* <Grid
             size={{ xs: 12, md: 6 }}
             sx={{
               order: { xs: 1, md: 2 },
@@ -31,7 +30,7 @@ const AuthForm = (props) => {
               justifyContent: "center",
               p: { xs: 3, md: 6 },
             }}
-          >
+          > 
             <Box
               component="img"
               src={BookLibrary}
@@ -44,12 +43,12 @@ const AuthForm = (props) => {
                 height: "auto",
               }}
             />
-          </Grid>
+          </Grid> */}
 
           <Grid
-            size={{ xs: 12, md: 6 }}
+            // size={{ xs: 12, md: 6 }}
             sx={{
-              order: { xs: 2, md: 1 },
+              //   order: { xs: 2, md: 1 },
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -60,46 +59,58 @@ const AuthForm = (props) => {
               <Stack spacing={3}>
                 <Box>
                   <Typography variant="h4" fontWeight={700} gutterBottom>
-                    Sign In to Book Notes
+                    {props.HeaderText}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
-                    Log in to keep track of your books, notes, and reading
-                    progress.
+                    {props.BodyText}
                   </Typography>
                 </Box>
 
                 <Stack spacing={2}>
                   <TextField
-                    label="Username"
-                    id="username"
-                    name="username"
+                    label={
+                      props.CreateAccount ? "Username" : "Username or email"
+                    }
+                    id="form_username"
+                    name="form_username"
                     fullWidth
                     autoComplete="username"
                   />
+                  {props.CreateAccount && (
+                    <TextField
+                      label="Email"
+                      id="form_email"
+                      name="form_email"
+                      fullWidth
+                      autoComplete="email"
+                    />
+                  )}
                   <TextField
                     label="Password"
-                    id="password"
-                    name="password"
+                    id="form_password"
+                    name="form_password"
                     type="password"
                     fullWidth
                     autoComplete="current-password"
                   />
                 </Stack>
 
-                <Stack
-                  direction={{ xs: "column", sm: "row" }}
-                  spacing={1}
-                  alignItems={{ xs: "flex-start", sm: "center" }}
-                  justifyContent="space-between"
-                >
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="Remember me"
-                  />
-                  <Link component="button" type="button" underline="hover">
-                    Forgot password?
-                  </Link>
-                </Stack>
+                {!props.CreateAccount && (
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    spacing={1}
+                    alignItems={{ xs: "flex-start", sm: "center" }}
+                    justifyContent="space-between"
+                  >
+                    <FormControlLabel
+                      control={<Checkbox defaultChecked />}
+                      label="Remember me"
+                    />
+                    <Link component="button" type="button" underline="hover">
+                      Forgot password?
+                    </Link>
+                  </Stack>
+                )}
 
                 <Button
                   type="submit"
@@ -107,37 +118,69 @@ const AuthForm = (props) => {
                   size="large"
                   fullWidth
                 >
-                  Log In
+                  {props.CreateAccount ? "Submit" : "Log In"}
                 </Button>
 
-                <Divider>or sign in with</Divider>
+                <Divider>
+                  or sign {props.CreateAccount ? "up" : "in"} with
+                </Divider>
 
                 <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
                   <Button
-                    fullWidth
                     variant="outlined"
-                    startIcon={<FacebookOutlinedIcon />}
+                    sx={{
+                      minWidth: 50,
+                      width: 50,
+                      height: 50,
+                      borderRadius: "50%",
+                      borderColor: "rgb(234, 67, 53)",
+                      color: "rgb(234, 67, 53)",
+                      ":hover": {
+                        bgcolor: "rgb(234, 67, 53)",
+                        color: "rgb(255, 255, 255)",
+                      },
+                    }}
                   >
-                    Facebook
-                  </Button>
-                  <Button fullWidth variant="outlined" startIcon={<XIcon />}>
-                    X
+                    <GoogleIcon />
                   </Button>
                   <Button
-                    fullWidth
                     variant="outlined"
-                    startIcon={<GoogleIcon />}
+                    sx={{
+                      minWidth: 50,
+                      width: 50,
+                      height: 50,
+                      borderRadius: "50%",
+                      borderColor: "rgb(0, 0, 0)",
+                      color: "rgb(0, 0, 0)",
+                      ":hover": {
+                        bgcolor: "rgb(0, 0, 0)",
+                        color: "rgb(255, 255, 255)",
+                      },
+                    }}
                   >
-                    Google
+                    <AppleIcon />
                   </Button>
                 </Stack>
 
-                <Typography variant="body2" color="text.secondary">
-                  Don't have an account?{" "}
-                  <Link component={RouterLink} to="/register" underline="hover">
-                    Create one
-                  </Link>
-                </Typography>
+                {props.CreateAccount ? (
+                  <Typography variant="body2" color="text.secondary">
+                    Already have an account?{" "}
+                    <Link component={RouterLink} to="/login" underline="hover">
+                      Sign In
+                    </Link>
+                  </Typography>
+                ) : (
+                  <Typography variant="body2" color="text.secondary">
+                    Don't have an account?{" "}
+                    <Link
+                      component={RouterLink}
+                      to="/register"
+                      underline="hover"
+                    >
+                      Create one
+                    </Link>
+                  </Typography>
+                )}
               </Stack>
             </Box>
           </Grid>
