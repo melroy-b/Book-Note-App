@@ -1,8 +1,22 @@
+import { useState } from "react";
+import { useDBBookSearch } from "../hooks/useBookSearch";
+import BookCard from "../components/BookCard";
+
 const API_URL = import.meta.env.VITE_API_URL;
 const MyBooks = () => {
-  const books = fetch(`${API_URL}/api/books/1/fetch_books`);
+  let userId = 1;
+  const { books } = useDBBookSearch(userId);
 
-  return <></>;
+  return (
+    <>
+      {books?.length > 0
+        ? books.map((item) => {
+            console.log(item);
+            return <BookCard key={item.id} book={item} />;
+          })
+        : "No books to display yet"}
+    </>
+  );
 };
 
 export default MyBooks;
