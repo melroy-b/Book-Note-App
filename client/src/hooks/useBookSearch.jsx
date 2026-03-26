@@ -47,4 +47,42 @@ const useBookSearch = (debouncedText) => {
   return [results, loading, showDropdown, setShowDropdown];
 };
 
+export const useDBBookSearch = (userId) => {
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchBooks = async () => {
+      try {
+        const response = await fetch(
+          `${API_URL}/api/books/${userId}/fetch_books`,
+          {
+            signal: controller.signal,
+          }
+        );
+        const response_json = await response.json();
+        if (!response.ok)
+          throw new Error(response_json.error || "DATABASE_ERROR");
+
+        const fetchedBooks = response_json.data;
+        setBooks(fetchedBooks);
+      } catch (error) {
+        if (error.name != "AbortError") {
+          console.error(
+            "Error fetching the books from database: ",
+            error.message
+          );
+          setBooks([]);
+        }
+      }
+    };
+
+    fetchBooks();
+
+    return () => controller.abort();
+  }, [userId]);
+
+  return { books };
+};
+
 export default useBookSearch;
