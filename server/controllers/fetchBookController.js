@@ -6,8 +6,9 @@ const openLibraryUrl = "http://openlibrary.org/";
 
 // Get books from database for a user
 export const getUserBooks = async (req, res) => {
-  const userId = req.params.userId;
+  const userId = parseInt(req.params.userId);
   if (!userId) {
+    console.error("User ID is required / Need Log In first");
     return res
       .status(400)
       .json({ error: "User ID is required / Need Log In first" });
@@ -17,11 +18,11 @@ export const getUserBooks = async (req, res) => {
       "SELECT * FROM notes JOIN books ON books.id = book_id WHERE user_id = $1",
       [userId]
     );
-    console.log(books.rows);
-    res.json(books.rows);
+
+    res.json({ error: null, data: books.rows });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error", data: [] });
   }
 };
 
@@ -44,7 +45,7 @@ export const searchBooks = async (req, res) => {
     });
     res.status(200).json(result.data);
   } catch (error) {
-    console.error("Error fetching data from Open Library API:", error);
+    console.error("Error fetching data from Open Library API:", error.message);
     res.status(500).json({ error: "Failed to fetch data from external API" });
   }
 };
@@ -99,7 +100,7 @@ export const getBookDetails = async (req, res) => {
     };
     res.status(200).json(bookData);
   } catch (error) {
-    console.error("Error fetching book details:", error);
+    console.error("Error fetching book details:", error.message);
     res
       .status(500)
       .json({ error: "Failed to fetch book details from external API" });
