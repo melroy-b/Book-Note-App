@@ -37,7 +37,6 @@ const AddNoteModal = (props) => {
       return;
     }
 
-    console.log("Submitting note:", trimmedNote);
     const response = await props.onSubmit?.({
       noteContent: trimmedNote,
       bookTitle: props?.bookTitle,

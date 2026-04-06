@@ -125,7 +125,11 @@ const AuthForm = (props) => {
                   or sign {props.CreateAccount ? "up" : "in"} with
                 </Divider>
 
-                <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={1.5}
+                  justifyContent={"center"}
+                >
                   <Button
                     variant="outlined"
                     sx={{
