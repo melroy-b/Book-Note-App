@@ -167,13 +167,14 @@ const NavBar = () => {
           )}
         </Search>
 
-        {/* Sign / Sign Up Buttons */}
+        {/* Log in / Register Buttons */}
         <Stack direction="row" spacing={1} sx={{ px: 1 }}>
           <Button
             variant="text"
             component={Link}
             to={"/login"}
             sx={{
+              textTransform: "none",
               color: "#ffff",
               "&:hover": {
                 textUnderlineOffset: "5px",
@@ -181,13 +182,14 @@ const NavBar = () => {
               },
             }}
           >
-            Sign In
+            Log In
           </Button>
           <Button
             variant="outlined"
             component={Link}
             to={"/register"}
             sx={{
+              textTransform: "none",
               borderColor: "#ffff",
               color: "#ffff",
               "&:hover": {
@@ -195,7 +197,7 @@ const NavBar = () => {
               },
             }}
           >
-            Sign Up
+            Register
           </Button>
         </Stack>
       </Container>
