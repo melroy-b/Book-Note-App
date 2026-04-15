@@ -16,35 +16,20 @@ import AppleIcon from "@mui/icons-material/Apple";
 import { Link as RouterLink } from "react-router-dom";
 import BookLibrary from "../assets/book-library.jpg";
 
+const API_URL = import.meta.env.VITE_API_URL;
 const AuthForm = (props) => {
+  const handleGoogleLogin = () => {
+    window.location.href = `${API_URL}/auth/google`;
+  };
+
+  const handleAppleLogin = () => {
+    window.location.href = `${API_URL}/auth/apple`;
+  };
+
   return (
     <Box>
       <Paper elevation={0}>
         <Grid container justifyContent={"center"}>
-          {/* <Grid
-            size={{ xs: 12, md: 6 }}
-            sx={{
-              order: { xs: 1, md: 2 },
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              p: { xs: 3, md: 6 },
-            }}
-          > 
-            <Box
-              component="img"
-              src={BookLibrary}
-              alt="Books and notes illustration"
-              fetchpriority="high"
-              decoding="sync"
-              sx={{
-                width: "100%",
-                maxWidth: 420,
-                height: "auto",
-              }}
-            />
-          </Grid> */}
-
           <Grid
             // size={{ xs: 12, md: 6 }}
             sx={{
@@ -55,7 +40,11 @@ const AuthForm = (props) => {
               p: { xs: 3, sm: 5, md: 7 },
             }}
           >
-            <Box component="form" sx={{ width: "100%", maxWidth: 420 }}>
+            <Box
+              component="form"
+              action={`${API_URL}/login`}
+              sx={{ width: "100%", maxWidth: 420 }}
+            >
               <Stack spacing={3}>
                 <Box>
                   <Typography variant="h4" fontWeight={700} gutterBottom>
@@ -132,6 +121,7 @@ const AuthForm = (props) => {
                 >
                   <Button
                     variant="outlined"
+                    onClick={handleGoogleLogin}
                     sx={{
                       minWidth: 50,
                       width: 50,
@@ -149,6 +139,7 @@ const AuthForm = (props) => {
                   </Button>
                   <Button
                     variant="outlined"
+                    onClick={handleAppleLogin}
                     sx={{
                       minWidth: 50,
                       width: 50,
