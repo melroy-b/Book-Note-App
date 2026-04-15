@@ -191,9 +191,11 @@ const NavBar = () => {
             sx={{
               textTransform: "none",
               borderColor: "#ffff",
-              color: "#ffff",
+              backgroundColor: "#ffff",
+              color: "#773e3e",
               "&:hover": {
-                backgroundColor: "rgba(189, 75, 41, 0.6)",
+                backgroundColor: "#773e3e",
+                color: "#ffff",
               },
             }}
           >
