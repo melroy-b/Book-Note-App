@@ -40,11 +40,7 @@ const AuthForm = (props) => {
               p: { xs: 3, sm: 5, md: 7 },
             }}
           >
-            <Box
-              component="form"
-              action={`${API_URL}/login`}
-              sx={{ width: "100%", maxWidth: 420 }}
-            >
+            <Box sx={{ width: "100%", maxWidth: 420 }}>
               <Stack spacing={3}>
                 <Box>
                   <Typography variant="h4" fontWeight={700} gutterBottom>
@@ -55,7 +51,13 @@ const AuthForm = (props) => {
                   </Typography>
                 </Box>
 
-                <Stack spacing={2}>
+                {/* local login form */}
+                <Stack
+                  component="form"
+                  action={`${API_URL}/auth/login`}
+                  method="post"
+                  spacing={2}
+                >
                   <TextField
                     label={
                       props.CreateAccount ? "Username" : "Username or email"
@@ -114,6 +116,7 @@ const AuthForm = (props) => {
                   or sign {props.CreateAccount ? "up" : "in"} with
                 </Divider>
 
+                {/* Google and Apple OAuth login */}
                 <Stack
                   direction={{ xs: "column", sm: "row" }}
                   spacing={1.5}
@@ -157,6 +160,7 @@ const AuthForm = (props) => {
                   </Button>
                 </Stack>
 
+                {/* navigation for login / register */}
                 {props.CreateAccount ? (
                   <Typography variant="body2" color="text.secondary">
                     Already have an account?{" "}
