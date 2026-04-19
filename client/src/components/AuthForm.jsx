@@ -40,7 +40,7 @@ const AuthForm = (props) => {
               p: { xs: 3, sm: 5, md: 7 },
             }}
           >
-            <Box sx={{ width: "100%", maxWidth: 420 }}>
+            <Box sx={{ width: "100%", maxWidth: 420, minWidth: 420 }}>
               <Stack spacing={3}>
                 <Box>
                   <Typography variant="h4" fontWeight={700} gutterBottom>
@@ -54,63 +54,68 @@ const AuthForm = (props) => {
                 {/* local login form */}
                 <Stack
                   component="form"
-                  action={`${API_URL}/auth/login`}
+                  action={`${API_URL}/auth/${props.authType}`}
                   method="post"
-                  spacing={2}
+                  spacing={3}
                 >
-                  <TextField
-                    label={
-                      props.CreateAccount ? "Username" : "Username or email"
-                    }
-                    id="form_username"
-                    name="form_username"
-                    fullWidth
-                    autoComplete="username"
-                  />
-                  {props.CreateAccount && (
+                  <Stack spacing={2}>
                     <TextField
-                      label="Email"
-                      id="form_email"
-                      name="form_email"
+                      label={
+                        props.CreateAccount ? "Username" : "Username or email"
+                      }
+                      id="form_username"
+                      name="form_username"
                       fullWidth
-                      autoComplete="email"
+                      autoComplete="username"
+                      required
                     />
-                  )}
-                  <TextField
-                    label="Password"
-                    id="form_password"
-                    name="form_password"
-                    type="password"
-                    fullWidth
-                    autoComplete="current-password"
-                  />
-                </Stack>
-
-                {!props.CreateAccount && (
-                  <Stack
-                    direction={{ xs: "column", sm: "row" }}
-                    spacing={1}
-                    alignItems={{ xs: "flex-start", sm: "center" }}
-                    justifyContent="space-between"
-                  >
-                    <FormControlLabel
-                      control={<Checkbox defaultChecked />}
-                      label="Remember me"
+                    {props.CreateAccount && (
+                      <TextField
+                        label="Email"
+                        id="form_email"
+                        name="form_email"
+                        fullWidth
+                        autoComplete="email"
+                        required
+                      />
+                    )}
+                    <TextField
+                      label="Password"
+                      id="form_password"
+                      name="form_password"
+                      type="password"
+                      fullWidth
+                      autoComplete="current-password"
+                      required
                     />
-                    <Link component="button" type="button" underline="hover">
-                      Forgot password?
-                    </Link>
                   </Stack>
-                )}
 
-                <Button
-                  type="submit"
-                  variant="contained"
-                  size="large"
-                  fullWidth
-                >
-                  {props.CreateAccount ? "Submit" : "Log In"}
-                </Button>
+                  {!props.CreateAccount && (
+                    <Stack
+                      direction={{ xs: "column", sm: "row" }}
+                      spacing={1}
+                      alignItems={{ xs: "flex-start", sm: "center" }}
+                      justifyContent="space-between"
+                    >
+                      <FormControlLabel
+                        control={<Checkbox defaultChecked />}
+                        label="Remember me"
+                      />
+                      <Link component="button" type="button" underline="hover">
+                        Forgot password?
+                      </Link>
+                    </Stack>
+                  )}
+
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    size="large"
+                    fullWidth
+                  >
+                    {props.CreateAccount ? "Submit" : "Log In"}
+                  </Button>
+                </Stack>
 
                 <Divider>
                   or sign {props.CreateAccount ? "up" : "in"} with
