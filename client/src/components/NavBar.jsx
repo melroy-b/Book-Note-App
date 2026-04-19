@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import DropDownLink from "./DropDownLink";
 import { Link } from "react-router-dom";
+import { AccountMenu } from "./AccountMenu";
 
 // MUI components
 import Container from "react-bootstrap/Container";
@@ -64,6 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const NavBar = () => {
   const [searchText, setSearchText] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const searchRef = useRef(null);
 
   // Custom hooks
@@ -82,6 +84,18 @@ const NavBar = () => {
     return () =>
       document.removeEventListener("pointerdown", handleOutsidePointer);
   }, [setShowDropdown]);
+
+  useEffect(() => {
+    const checkUserAuthentication = async () => {
+      const userAuth = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`);
+
+      if (userAuth.ok) {
+        setIsAuthenticated(true);
+      }
+    };
+
+    checkUserAuthentication();
+  }, [setIsAuthenticated]);
 
   return (
     <Navbar
@@ -167,41 +181,45 @@ const NavBar = () => {
           )}
         </Search>
 
-        {/* Log in / Register Buttons */}
-        <Stack direction="row" spacing={1} sx={{ px: 1 }}>
-          <Button
-            variant="text"
-            component={Link}
-            to={"/login"}
-            sx={{
-              textTransform: "none",
-              color: "#ffff",
-              "&:hover": {
-                textUnderlineOffset: "5px",
-                textDecoration: "underline",
-              },
-            }}
-          >
-            Log In
-          </Button>
-          <Button
-            variant="outlined"
-            component={Link}
-            to={"/register"}
-            sx={{
-              textTransform: "none",
-              borderColor: "#ffff",
-              backgroundColor: "#ffff",
-              color: "#773e3e",
-              "&:hover": {
-                backgroundColor: "#773e3e",
+        {/* Log in / Register Buttons / Account Menu */}
+        {isAuthenticated ? (
+          <AccountMenu />
+        ) : (
+          <Stack direction="row" spacing={1} sx={{ px: 1 }}>
+            <Button
+              variant="text"
+              component={Link}
+              to={"/login"}
+              sx={{
+                textTransform: "none",
                 color: "#ffff",
-              },
-            }}
-          >
-            Register
-          </Button>
-        </Stack>
+                "&:hover": {
+                  textUnderlineOffset: "5px",
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              Log In
+            </Button>
+            <Button
+              variant="outlined"
+              component={Link}
+              to={"/register"}
+              sx={{
+                textTransform: "none",
+                borderColor: "#ffff",
+                backgroundColor: "#ffff",
+                color: "#773e3e",
+                "&:hover": {
+                  backgroundColor: "#773e3e",
+                  color: "#ffff",
+                },
+              }}
+            >
+              Register
+            </Button>
+          </Stack>
+        )}
       </Container>
     </Navbar>
   );
