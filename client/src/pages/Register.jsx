@@ -4,6 +4,7 @@ const Register = () => {
   return (
     <>
       <AuthForm
+        authType={"register"}
         CreateAccount={true}
         HeaderText={"Create an account"}
         BodyText={
