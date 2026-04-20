@@ -37,7 +37,7 @@ export const register_user = async (req, res) => {
 
     const user = await db.query(
       "SELECT * FROM users WHERE LOWER(email)=LOWER($1)",
-      [email],
+      [email]
     );
 
     if (user.rows.length > 0) {
@@ -48,7 +48,7 @@ export const register_user = async (req, res) => {
         if (err) console.log("Error hashing password: ", err);
         const user = await db.query(
           "INSERT INTO users (username, password_hash, email) VALUES ($1, $2, $3) RETURNING *",
-          [username, password_hash, email],
+          [username, password_hash, email]
         );
 
         req.logIn(user.rows[0], (err) => {
@@ -62,6 +62,7 @@ export const register_user = async (req, res) => {
   }
 };
 
+//local strategy for username/email and password authentication
 passport.use(
   "local",
   new LocalStrategy(
@@ -70,10 +71,9 @@ passport.use(
       try {
         const user = await db.query(
           "SELECT * FROM users WHERE LOWER(email) = LOWER($1) OR LOWER(username) = LOWER($1) LIMIT 1",
-          [identifier.trim()],
+          [identifier.trim()]
         );
 
-        console.log(user.rows[0]);
         if (user.rows.length > 0) {
           const storedHashPassword = user.rows[0].password_hash;
           bcrypt.compare(password, storedHashPassword, (err, valid) => {
@@ -81,14 +81,15 @@ passport.use(
             if (valid) return cb(null, user.rows[0]);
             else return cb(null, false);
           });
-        } else return cb("User not found", false);
+        } else return cb("User not found");
       } catch (err) {
         console.log(err);
       }
-    },
-  ),
+    }
+  )
 );
 
+//google strategy for authentication with google oauth
 passport.use(
   "google",
   new GoogleStrategy(
@@ -97,32 +98,60 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:3000/auth/google/callback",
     },
-    async (profile, done) => {
-      console.log(profile);
-
+    async (accessToken, refreshToken, profile, done) => {
       try {
         let user = await db.query(
           "SELECT * FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1",
-          [profile.email],
+          [profile.email]
         );
 
         if (user.rows.length == 0) {
           user = await db.query(
             "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING *",
-            [profile.displayName, profile.email, "google"],
+            [profile.displayName, profile.email, "google"]
           );
         }
 
-        return done(null, user.rows[0]);
+        return cb(null, user.rows[0]);
       } catch (error) {
         console.log(error);
-        return done(error, null);
+        return cb(error);
       }
-    },
-  ),
+    }
+  )
 );
 
-//passport.use("github", new GithubStrategy({}));
+//github strategy for authentication with github oauth
+passport.use(
+  "github",
+  new GithubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/auth/github/callback",
+    },
+    async (accessToken, refreshToken, profile, cb) => {
+      try {
+        let user = await db.query(
+          "SELECT * FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1",
+          [profile._json.email]
+        );
+
+        if (user.rows.length == 0) {
+          user = await db.query(
+            "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING *",
+            [profile.username, profile._json.email, "github"]
+          );
+        }
+
+        return cb(null, user.rows[0]);
+      } catch (error) {
+        console.log(error);
+        return cb(error);
+      }
+    }
+  )
+);
 
 passport.serializeUser((user, cb) => {
   cb(null, user.id);
