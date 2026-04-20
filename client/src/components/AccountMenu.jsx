@@ -17,7 +17,13 @@ export const AccountMenu = (props) => {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    //window.location.href = `${import.meta.env.VITE_API_URL}/auth/logout`;
   };
+
+  const handleLogout = () => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/logout`;
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -78,7 +84,7 @@ export const AccountMenu = (props) => {
         <MenuItem onClick={handleClose}>
           <Avatar /> Profile
         </MenuItem>
-        <MenuItem onClick={handleClick}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
