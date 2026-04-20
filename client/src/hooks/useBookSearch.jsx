@@ -57,6 +57,7 @@ export const useDBBookSearch = (userId) => {
         const response = await fetch(
           `${API_URL}/api/books/${userId}/fetch_books`,
           {
+            credentials: "include",
             signal: controller.signal,
           }
         );

@@ -87,7 +87,9 @@ const NavBar = () => {
 
   useEffect(() => {
     const checkUserAuthentication = async () => {
-      const userAuth = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`);
+      const userAuth = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
+        credentials: "include",
+      });
 
       if (userAuth.ok) {
         setIsAuthenticated(true);
@@ -185,7 +187,7 @@ const NavBar = () => {
 
         {/* Log in / Register Buttons / Account Menu */}
         {isAuthenticated ? (
-          <AccountMenu />
+          <AccountMenu setIsAuthenticated={setIsAuthenticated} />
         ) : (
           <Stack direction="row" spacing={1} sx={{ px: 1 }}>
             <Button
