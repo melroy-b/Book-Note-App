@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
-import AppleIcon from "@mui/icons-material/Apple";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import { Link as RouterLink } from "react-router-dom";
 import BookLibrary from "../assets/book-library.jpg";
 
@@ -22,8 +22,8 @@ const AuthForm = (props) => {
     window.location.href = `${API_URL}/auth/google`;
   };
 
-  const handleAppleLogin = () => {
-    window.location.href = `${API_URL}/auth/apple`;
+  const handleGithubLogin = () => {
+    window.location.href = `${API_URL}/auth/github`;
   };
 
   return (
@@ -147,7 +147,7 @@ const AuthForm = (props) => {
                   </Button>
                   <Button
                     variant="outlined"
-                    onClick={handleAppleLogin}
+                    onClick={handleGithubLogin}
                     sx={{
                       minWidth: 50,
                       width: 50,
@@ -161,7 +161,7 @@ const AuthForm = (props) => {
                       },
                     }}
                   >
-                    <AppleIcon />
+                    <GitHubIcon />
                   </Button>
                 </Stack>
 
