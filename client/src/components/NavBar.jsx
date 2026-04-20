@@ -65,7 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const NavBar = () => {
   const [searchText, setSearchText] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const searchRef = useRef(null);
 
   // Custom hooks
@@ -91,6 +91,8 @@ const NavBar = () => {
 
       if (userAuth.ok) {
         setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
       }
     };
 
@@ -207,8 +209,8 @@ const NavBar = () => {
               to={"/register"}
               sx={{
                 textTransform: "none",
-                borderColor: "#ffff",
-                backgroundColor: "#ffff",
+                borderColor: "#fff",
+                backgroundColor: "#fff",
                 color: "#773e3e",
                 "&:hover": {
                   backgroundColor: "#773e3e",

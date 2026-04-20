@@ -27,7 +27,7 @@ export const logout = (req, res) => {
   }
 };
 
-export const q = async (req, res) => {
+export const register_user = async (req, res) => {
   try {
     const {
       form_username: username,
@@ -122,7 +122,7 @@ passport.use(
   ),
 );
 
-passport.use("github", new GithubStrategy({}));
+//passport.use("github", new GithubStrategy({}));
 
 passport.serializeUser((user, cb) => {
   cb(null, user.id);
