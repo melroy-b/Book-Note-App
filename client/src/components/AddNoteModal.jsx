@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
 import {
   Box,
   Button,
@@ -13,6 +15,7 @@ import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { use } from "react";
 
 const AddNoteModal = (props) => {
   const [open, setOpen] = useState(false);
@@ -22,7 +25,17 @@ const AddNoteModal = (props) => {
   );
   const [error, setError] = useState("");
 
-  const handleOpen = () => setOpen(true);
+  const navigate = useNavigate();
+  const { isAuthenticated, userAuth } = useCheckAuthentication();
+
+  const handleOpen = () => {
+    if (!isAuthenticated) {
+      navigate("/login", { replace: true });
+      return;
+    }
+    setOpen(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
     setError("");
