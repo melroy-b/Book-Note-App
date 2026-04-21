@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import DropDownLink from "./DropDownLink";
 import { Link } from "react-router-dom";
 import { AccountMenu } from "./AccountMenu";
+import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
 
 // MUI components
 import Container from "react-bootstrap/Container";
@@ -65,13 +66,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const NavBar = () => {
   const [searchText, setSearchText] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const searchRef = useRef(null);
 
   // Custom hooks
   const debouncedText = useDebounce(searchText, 350);
   const [results, loading, showDropdown, setShowDropdown] =
     useBookSearch(debouncedText);
+  const { isAuthenticated, setIsAuthenticated } = useCheckAuthentication();
 
   useEffect(() => {
     const handleOutsidePointer = (e) => {
@@ -84,22 +85,6 @@ const NavBar = () => {
     return () =>
       document.removeEventListener("pointerdown", handleOutsidePointer);
   }, [setShowDropdown]);
-
-  useEffect(() => {
-    const checkUserAuthentication = async () => {
-      const userAuth = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
-        credentials: "include",
-      });
-
-      if (userAuth.ok) {
-        setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
-      }
-    };
-
-    checkUserAuthentication();
-  }, [setIsAuthenticated]);
 
   return (
     <Navbar
