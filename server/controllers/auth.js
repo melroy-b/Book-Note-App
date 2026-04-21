@@ -98,7 +98,7 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:3000/auth/google/callback",
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, cb) => {
       try {
         let user = await db.query(
           "SELECT * FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1",
