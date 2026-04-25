@@ -14,7 +14,7 @@ const BookCoverGrid = (props) => {
     if (!el) return;
     setIsExpanded(false);
     // Check if the content overflows the container
-    setCanExpand(el.scrollHeight > el.clientHeight);
+    setCanExpand(el.scrollHeight > el.clientHeight + 1);
   }, [props.descriptionText]);
 
   return (

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
 import {
   Box,
   Button,
@@ -13,16 +15,27 @@ import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { use } from "react";
 
 const AddNoteModal = (props) => {
   const [open, setOpen] = useState(false);
   const [noteContent, setNoteContent] = useState(props.initialNote ?? "");
   const [date, setDate] = useState(
-    props.date_read ? dayjs(props.date_read) : null,
+    props.date_read ? dayjs(props.date_read) : null
   );
   const [error, setError] = useState("");
 
-  const handleOpen = () => setOpen(true);
+  const navigate = useNavigate();
+  const { isAuthenticated, userAuth } = useCheckAuthentication();
+
+  const handleOpen = () => {
+    if (!isAuthenticated) {
+      navigate("/login", { replace: true });
+      return;
+    }
+    setOpen(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
     setError("");
@@ -37,10 +50,10 @@ const AddNoteModal = (props) => {
       return;
     }
 
-    console.log("Submitting note:", trimmedNote);
     const response = await props.onSubmit?.({
       noteContent: trimmedNote,
       bookTitle: props?.bookTitle,
+      bookCover: props?.bookCover,
       authorName: props?.authorName,
       authorID: props?.authorID,
       bookOLID: props?.bookOLID,
@@ -50,6 +63,7 @@ const AddNoteModal = (props) => {
 
     if (response.success) {
       setNoteContent("");
+      setDate(null);
       handleClose();
     }
   };

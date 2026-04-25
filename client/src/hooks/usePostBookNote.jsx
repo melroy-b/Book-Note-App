@@ -13,6 +13,7 @@ const usePostBookNote = () => {
 
       postResponse = await fetch(`${API_URL}/api/books/notes`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });

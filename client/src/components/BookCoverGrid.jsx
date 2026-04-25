@@ -21,7 +21,6 @@ const BookCoverGrid = (props) => {
     try {
       response = await postBookNote(params);
       if (response.error != "") {
-        
         throw new Error(response.error);
       }
       if (response.success) {
@@ -79,6 +78,7 @@ const BookCoverGrid = (props) => {
       <Box className="d-flex gap-2">
         <AddNoteModal
           bookTitle={props.bookTitle}
+          bookCover={props.rawCovers[0]}
           authorName={props.authorName}
           authorID={props.authorId}
           bookOLID={props.bookOLID}

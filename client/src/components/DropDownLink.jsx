@@ -25,7 +25,7 @@ const DropDownLink = (props) => {
     <Link
       className="d-flex dropdown-link"
       to={`/book/${encodeURI(bookId)}?author=${encodeURIComponent(
-        authorKey
+        authorKey,
       )}&edition=${encodeURIComponent(cover_edition_key)}`}
       onMouseDown={(e) => e.preventDefault()}
       onClick={() => {

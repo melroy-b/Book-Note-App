@@ -1,5 +1,18 @@
+import AuthForm from "../components/AuthForm";
+
 const Register = () => {
-  return <div>Register Page</div>;
+  return (
+    <>
+      <AuthForm
+        authType={"register"}
+        CreateAccount={true}
+        HeaderText={"Create an account"}
+        BodyText={
+          "Register to keep track of your books, notes, and reading progress."
+        }
+      />
+    </>
+  );
 };
 
 export default Register;

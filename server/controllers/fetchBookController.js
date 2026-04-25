@@ -5,22 +5,24 @@ import db from "../db/index.js";
 const openLibraryUrl = "http://openlibrary.org/";
 
 // Get books from database for a user
-export const getBooks = async (req, res) => {
-  const userId = req.params.id;
+export const getUserBooks = async (req, res) => {
+  const userId = parseInt(req.params.userId);
   if (!userId) {
+    console.error("User ID is required / Need Log In first");
     return res
       .status(400)
       .json({ error: "User ID is required / Need Log In first" });
   }
   try {
     const books = await db.query(
-      "SELECT * FROM notes JOIN books ON books.id = notes.book_id WHERE user_id = $1",
+      "SELECT * FROM notes JOIN books ON books.id = book_id WHERE user_id = $1",
       [userId]
     );
-    res.json(books.rows);
+
+    res.json({ error: null, data: books.rows });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error", data: [] });
   }
 };
 
@@ -43,7 +45,7 @@ export const searchBooks = async (req, res) => {
     });
     res.status(200).json(result.data);
   } catch (error) {
-    console.error("Error fetching data from Open Library API:", error);
+    console.error("Error fetching data from Open Library API:", error.message);
     res.status(500).json({ error: "Failed to fetch data from external API" });
   }
 };
@@ -70,7 +72,7 @@ export const getBookDetails = async (req, res) => {
     );
 
     //This endpoint will only run if editionId and bookResult.data?.languages?.length > 0 are present, otherwise it will return an empty object.
-    //This is because the edition details are only relevant if there are publishing details available for the book and if yes, languages data present?. 
+    //This is because the edition details are only relevant if there are publishing details available for the book and if yes, languages data present?.
     //If there is no data, then there is no need to fetch the edition details, which can save time and resources.
 
     //edition details like publish date, publisher, number of pages, etc.
@@ -98,7 +100,7 @@ export const getBookDetails = async (req, res) => {
     };
     res.status(200).json(bookData);
   } catch (error) {
-    console.error("Error fetching book details:", error);
+    console.error("Error fetching book details:", error.message);
     res
       .status(500)
       .json({ error: "Failed to fetch book details from external API" });

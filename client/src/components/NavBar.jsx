@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import DropDownLink from "./DropDownLink";
 import { Link } from "react-router-dom";
+import { AccountMenu } from "./AccountMenu";
+import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
 
 // MUI components
 import Container from "react-bootstrap/Container";
@@ -8,8 +10,10 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import BrandLogo from "../assets/journal-bookmark-fill.svg";
 
 // Custom hooks
@@ -68,6 +72,7 @@ const NavBar = () => {
   const debouncedText = useDebounce(searchText, 350);
   const [results, loading, showDropdown, setShowDropdown] =
     useBookSearch(debouncedText);
+  const [isAuthenticated, setIsAuthenticated] = useCheckAuthentication();
 
   useEffect(() => {
     const handleOutsidePointer = (e) => {
@@ -111,7 +116,7 @@ const NavBar = () => {
           <Link className="nav-link child" to="/contact">
             Contact
           </Link>
-          <Link className="nav-link child" to="/library">
+          <Link className="nav-link child" to="/mybooks">
             My Books
           </Link>
         </Nav>
@@ -164,6 +169,46 @@ const NavBar = () => {
             </Box>
           )}
         </Search>
+
+        {/* Log in / Register Buttons / Account Menu */}
+        {isAuthenticated ? (
+          <AccountMenu setIsAuthenticated={setIsAuthenticated} />
+        ) : (
+          <Stack direction="row" spacing={1} sx={{ px: 1 }}>
+            <Button
+              variant="text"
+              component={Link}
+              to={"/login"}
+              sx={{
+                textTransform: "none",
+                color: "#ffff",
+                "&:hover": {
+                  textUnderlineOffset: "5px",
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              Log In
+            </Button>
+            <Button
+              variant="outlined"
+              component={Link}
+              to={"/register"}
+              sx={{
+                textTransform: "none",
+                borderColor: "#fff",
+                backgroundColor: "#fff",
+                color: "#773e3e",
+                "&:hover": {
+                  backgroundColor: "#773e3e",
+                  color: "#ffff",
+                },
+              }}
+            >
+              Register
+            </Button>
+          </Stack>
+        )}
       </Container>
     </Navbar>
   );
