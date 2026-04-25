@@ -26,5 +26,5 @@ export const useCheckAuthentication = () => {
     checkUserAuthentication();
   }, [setIsAuthenticated]);
 
-  return { isCheckingAuth, setIsAuthenticated, isAuthenticated, userAuth };
+  return [isCheckingAuth, setIsAuthenticated, isAuthenticated, userAuth];
 };

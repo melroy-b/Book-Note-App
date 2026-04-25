@@ -72,7 +72,7 @@ const NavBar = () => {
   const debouncedText = useDebounce(searchText, 350);
   const [results, loading, showDropdown, setShowDropdown] =
     useBookSearch(debouncedText);
-  const { isAuthenticated, setIsAuthenticated } = useCheckAuthentication();
+  const [isAuthenticated, setIsAuthenticated] = useCheckAuthentication();
 
   useEffect(() => {
     const handleOutsidePointer = (e) => {
