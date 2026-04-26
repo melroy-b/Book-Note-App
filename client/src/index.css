@@ -114,17 +114,15 @@ h3,
   width: 600px;
   background-color: #fff; /* equivalent to background.paper default */
   border: 2px solid #000;
-  box-shadow:
-    0 11px 15px -7px rgba(0, 0, 0, 0.2),
-    0 24px 38px 3px rgba(0, 0, 0, 0.14),
-    0 9px 46px 8px rgba(0, 0, 0, 0.12); /* MUI shadow 24 */
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12); /* MUI shadow 24 */
   padding: 32px; /* p: 4 => 4 * 8px */
 }
 
-.book-description__wrapper {
+/* .book-description__wrapper {
   margin-bottom: 10px;
   padding: 0 5px;
-}
+} */
 
 .book-description {
   display: -webkit-box;

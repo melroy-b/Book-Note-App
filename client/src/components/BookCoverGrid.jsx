@@ -41,9 +41,16 @@ const BookCoverGrid = (props) => {
   }
 
   return (
-    <Grid
-      className="p-3 d-flex flex-column border rounded align-items-center"
-      size={{ xs: 12, lg: 3 }}
+    <Box
+      //className="p-3 d-flex flex-column align-items-center"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gridColumn: { xs: "1", md: "2" },
+        gridRow: { xs: "auto", md: "1 / 3" },
+        order: { xs: 2, md: 1 },
+      }}
     >
       <Box className="cover-image__container">
         <img
@@ -96,7 +103,7 @@ const BookCoverGrid = (props) => {
           setSnackBar((currentValue) => ({ ...currentValue, open: false }));
         }}
       />
-    </Grid>
+    </Box>
   );
 };
 

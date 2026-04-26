@@ -36,7 +36,14 @@ const BookDetails = () => {
 
   return (
     <Box sx={{ flexGrow: 1, padding: "20px" }}>
-      <Grid container className="rounded text-body-emphasis" spacing={1}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "2fr 1fr" },
+          gridTemplateRows: "auto auto",
+          gap: 1,
+        }}
+      >
         {/* Book metadata grid (title, author, etc.) */}
         <BookMetaGrid
           title={title}
@@ -57,7 +64,7 @@ const BookDetails = () => {
           authorId={authorId}
           bookOLID={bookId}
         />
-      </Grid>
+      </Box>
     </Box>
   );
 };
