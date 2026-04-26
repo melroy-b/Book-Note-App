@@ -112,6 +112,7 @@ passport.use(
           );
         }
 
+        console.log("google auth successful, user: ", user.rows[0]);
         return cb(null, user.rows[0]);
       } catch (error) {
         console.log(error);
@@ -144,6 +145,7 @@ passport.use(
           );
         }
 
+        console.log("github auth successful, user: ", user.rows[0]);
         return cb(null, user.rows[0]);
       } catch (error) {
         console.log(error);
