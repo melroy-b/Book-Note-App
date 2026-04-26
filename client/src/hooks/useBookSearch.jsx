@@ -7,6 +7,7 @@ const useBookSearch = (debouncedText) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const runSearch = async () => {
@@ -24,6 +25,10 @@ const useBookSearch = (debouncedText) => {
             signal: controller.signal,
           }
         );
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "SEARCH_ERROR");
+        }
         const data = await response.json();
         const docs = Array.isArray(data?.docs) ? data.docs : [];
         setResults(docs);
@@ -33,6 +38,7 @@ const useBookSearch = (debouncedText) => {
           console.error("Search failed:", error);
           setResults([]);
           setShowDropdown(false);
+          setError(error);
         }
       } finally {
         setLoading(false);
@@ -44,7 +50,7 @@ const useBookSearch = (debouncedText) => {
     return () => controller.abort();
   }, [debouncedText]);
 
-  return [results, loading, showDropdown, setShowDropdown];
+  return [results, loading, showDropdown, setShowDropdown, error];
 };
 
 export const useDBBookSearch = (userId) => {

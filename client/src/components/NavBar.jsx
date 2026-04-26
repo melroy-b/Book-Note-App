@@ -3,6 +3,7 @@ import DropDownLink from "./DropDownLink";
 import { Link } from "react-router-dom";
 import { AccountMenu } from "./AccountMenu";
 import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
+import AutohideSnackbar from "./Snackbar";
 
 // MUI components
 import Container from "react-bootstrap/Container";
@@ -67,12 +68,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const NavBar = () => {
   const [searchText, setSearchText] = useState("");
   const searchRef = useRef(null);
+  const [snackBar, setSnackBar] = useState({
+    open: false,
+    variant: "error",
+    message: "",
+  });
 
   // Custom hooks
   const debouncedText = useDebounce(searchText, 350);
-  const [results, loading, showDropdown, setShowDropdown] =
+  const [results, loading, showDropdown, setShowDropdown, error] =
     useBookSearch(debouncedText);
-  const [isAuthenticated, setIsAuthenticated] = useCheckAuthentication();
+  const { isAuthenticated, setIsAuthenticated } = useCheckAuthentication();
 
   useEffect(() => {
     const handleOutsidePointer = (e) => {
@@ -85,6 +91,17 @@ const NavBar = () => {
     return () =>
       document.removeEventListener("pointerdown", handleOutsidePointer);
   }, [setShowDropdown]);
+
+  useEffect(() => {
+    setSnackBar({
+      open: true,
+      variant: "error",
+      message:
+        typeof error === "string"
+          ? error
+          : error?.message ?? "Something went wrong",
+    });
+  }, [error]);
 
   return (
     <Navbar
@@ -210,6 +227,19 @@ const NavBar = () => {
           </Stack>
         )}
       </Container>
+
+      {error !== null && (
+        <AutohideSnackbar
+          open={snackBar.open}
+          variant="error"
+          message={
+            typeof error === "string"
+              ? error
+              : error?.message ?? "Something went wrong"
+          }
+          onClose={() => setSnackBar({ ...snackBar, open: false })}
+        />
+      )}
     </Navbar>
   );
 };
