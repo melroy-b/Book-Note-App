@@ -6,6 +6,7 @@ import AutohideSnackbar from "./Snackbar";
 import { Box, Grid } from "@mui/material";
 //import EditNoteIcon from "@mui/icons-material/EditNote";
 import StarIcon from "@mui/icons-material/Star";
+import Rating from "@mui/material/Rating";
 
 const BookCoverGrid = (props) => {
   const [hoveredStar, setHoveredStar] = useState(0);
@@ -64,7 +65,7 @@ const BookCoverGrid = (props) => {
         />
       </Box>
       <Box className="rating-star__container">
-        {[1, 2, 3, 4, 5].map((star) => (
+        {/* {[1, 2, 3, 4, 5].map((star) => (
           <button
             key={star}
             className={`star-${star}`}
@@ -80,7 +81,8 @@ const BookCoverGrid = (props) => {
               }}
             />
           </button>
-        ))}
+        ))} */}
+        <Rating name="half-rating" value={null} />
       </Box>
       <Box className="d-flex gap-2">
         <AddNoteModal

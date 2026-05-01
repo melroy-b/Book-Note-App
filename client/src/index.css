@@ -89,9 +89,9 @@ h3,
 }
 
 .rating-star__container {
-  display: flex;
+  /* display: flex; */
   margin-bottom: 0.25rem;
-  padding-bottom: 1rem;
+  padding: 0.5rem;
   border-bottom: 1px solid #dee2e6;
 }
 
