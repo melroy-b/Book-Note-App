@@ -1,10 +1,10 @@
 # Book Note App
 
 ## Overview
-The Book Note App is a web application that allows users to keep track of their favorite books and make notes about them. Users can add, edit, and delete book entries, providing a way to organize thoughts and insights about each book read.
+The Book Note App is a web application that allows users to keep track of their favorite books and make notes about them (and rate them too). Users can add, edit, and delete book entries, providing a way to organize thoughts and insights about each book read.
 
 ## Features
-- **Add Book**: Users can input the title, author, genre, and a note about the book.
+- **Add Book**: Users can input date read, rating and a note about the book.
 - **Edit Book**: Users can update details of existing book entries.
 - **Delete Book**: Unwanted book entries can be removed easily.
 - **Browse Books**: Users can view all their books in a list format.
