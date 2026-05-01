@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
 import {
   Box,
@@ -27,11 +27,15 @@ const AddNoteModal = (props) => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const returnTo = `${location.pathname}${location.search}${location.hash}`;
   const { isAuthenticated, userAuth } = useCheckAuthentication();
 
   const handleOpen = () => {
     if (!isAuthenticated) {
-      navigate("/login", { replace: true });
+      navigate(`/login?returnTo=${encodeURIComponent(returnTo)}`, {
+        replace: true,
+      });
       return;
     }
     console.log(userAuth);

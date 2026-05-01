@@ -22,7 +22,14 @@ const ProtectedRoute = () => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    const returnTo = `${location.pathname}${location.search}${location.hash}`;
+    return (
+      <Navigate
+        to={`/login?returnTo=${encodeURIComponent(returnTo)}`}
+        replace
+        state={{ from: location }}
+      />
+    );
   }
 
   return <Outlet />;

@@ -1,6 +1,10 @@
+import { useSearchParams } from "react-router-dom";
 import AuthForm from "../components/AuthForm";
 
 const Register = () => {
+  const [searchParams] = useSearchParams();
+  const returnTo = searchParams.get("returnTo") || "/";
+
   return (
     <>
       <AuthForm
@@ -10,6 +14,7 @@ const Register = () => {
         BodyText={
           "Register to keep track of your books, notes, and reading progress."
         }
+        returnTo={returnTo}
       />
     </>
   );

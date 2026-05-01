@@ -18,12 +18,19 @@ import BookLibrary from "../assets/book-library.jpg";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const AuthForm = (props) => {
+  const getReturnTo = () =>
+    props.returnTo ||
+    `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  const authNavigationPath = `${props.CreateAccount ? "/login" : "/register"}?returnTo=${encodeURIComponent(getReturnTo())}`;
+
   const handleGoogleLogin = () => {
-    window.location.href = `${API_URL}/auth/google`;
+    const returnTo = encodeURIComponent(getReturnTo());
+    window.location.href = `${API_URL}/auth/google?returnTo=${returnTo}`;
   };
 
   const handleGithubLogin = () => {
-    window.location.href = `${API_URL}/auth/github`;
+    const returnTo = encodeURIComponent(getReturnTo());
+    window.location.href = `${API_URL}/auth/github?returnTo=${returnTo}`;
   };
 
   return (
@@ -169,7 +176,11 @@ const AuthForm = (props) => {
                 {props.CreateAccount ? (
                   <Typography variant="body2" color="text.secondary">
                     Already have an account?{" "}
-                    <Link component={RouterLink} to="/login" underline="hover">
+                    <Link
+                      component={RouterLink}
+                      to={authNavigationPath}
+                      underline="hover"
+                    >
                       Sign In
                     </Link>
                   </Typography>
@@ -178,7 +189,7 @@ const AuthForm = (props) => {
                     Don't have an account?{" "}
                     <Link
                       component={RouterLink}
-                      to="/register"
+                      to={authNavigationPath}
                       underline="hover"
                     >
                       Create one

@@ -1,10 +1,15 @@
-import { useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import AuthForm from "../components/AuthForm";
 
 const Login = () => {
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const error = searchParams.get("error");
   const info = searchParams.get("info");
+  const returnToFromState = location.state?.from
+    ? `${location.state.from.pathname}${location.state.from.search}${location.state.from.hash}`
+    : null;
+  const returnTo = returnToFromState || searchParams.get("returnTo") || "/";
 
   const bodyText = () => {
     if (error == "invalid_credentials")
@@ -21,6 +26,7 @@ const Login = () => {
         CreateAccount={false}
         HeaderText={"Sign In"}
         BodyText={bodyText()}
+        returnTo={returnTo}
       />
     </>
   );
