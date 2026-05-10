@@ -21,7 +21,9 @@ const AuthForm = (props) => {
   const getReturnTo = () =>
     props.returnTo ||
     `${window.location.pathname}${window.location.search}${window.location.hash}`;
-  const authNavigationPath = `${props.CreateAccount ? "/login" : "/register"}?returnTo=${encodeURIComponent(getReturnTo())}`;
+  const authNavigationPath = `${
+    props.CreateAccount ? "/login" : "/register"
+  }?returnTo=${encodeURIComponent(getReturnTo())}`;
 
   const handleGoogleLogin = () => {
     const returnTo = encodeURIComponent(getReturnTo());

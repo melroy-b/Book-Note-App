@@ -65,23 +65,6 @@ const BookCoverGrid = (props) => {
         />
       </Box>
       <Box className="rating-star__container">
-        {/* {[1, 2, 3, 4, 5].map((star) => (
-          <button
-            key={star}
-            className={`star-${star}`}
-            onMouseEnter={() => setHoveredStar(star)}
-            onMouseLeave={() => setHoveredStar(0)}
-          >
-            <StarIcon
-              sx={{
-                color: star <= hoveredStar ? "#ffc107" : "#bdbdbd",
-                height: "32px",
-                width: "32px",
-                cursor: "pointer",
-              }}
-            />
-          </button>
-        ))} */}
         <Rating name="half-rating" value={null} />
       </Box>
       <Box className="d-flex gap-2">

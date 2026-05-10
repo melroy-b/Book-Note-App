@@ -20,7 +20,7 @@ import { use } from "react";
 const AddNoteModal = (props) => {
   const [open, setOpen] = useState(false);
   const [noteContent, setNoteContent] = useState(props.initialNote ?? "");
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({ userID: null, userName: "Unknown User" });
   const [date, setDate] = useState(
     props.date_read ? dayjs(props.date_read) : null
   );
@@ -38,8 +38,10 @@ const AddNoteModal = (props) => {
       });
       return;
     }
-    console.log(userAuth);
-    setUser(userAuth?.user?.username || "Unknown User");
+    setUser({
+      userID: userAuth?.user.id,
+      userName: userAuth?.user.username ?? "Unknown User",
+    });
     setOpen(true);
   };
 
@@ -64,7 +66,8 @@ const AddNoteModal = (props) => {
       authorName: props?.authorName,
       authorID: props?.authorID,
       bookOLID: props?.bookOLID,
-      userName: props?.userName,
+      userName: user?.userName,
+      userID: user?.userID,
       date_read: date ? date.format("YYYY-MM-DD") : null,
     });
 
@@ -135,7 +138,7 @@ const AddNoteModal = (props) => {
                 <Typography variant="subtitle2" color="text.secondary">
                   User name
                 </Typography>
-                <Typography variant="body1">{user}</Typography>
+                <Typography variant="body1">{user.userName}</Typography>
                 {/* <Typography variant="subtitle2" hidden>
                   {props.userID ?? 1}
                 </Typography> */}
