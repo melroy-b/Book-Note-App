@@ -51,6 +51,7 @@ router.get("/logout", logout);
 //POST /auth/login - Initiate local auth flow
 router.post(
   "/login",
+  storeReturnTo,
   passport.authenticate("local", {
     //successRedirect: `${process.env.CLIENT_URL}/`,
     failureRedirect: `${process.env.CLIENT_URL}/login?error=invalid_credentials`,
