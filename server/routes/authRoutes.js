@@ -15,6 +15,7 @@ const storeReturnTo = (req, res, next) => {
   req.session.save((err) => {
     if (err) return next(err);
   });
+  console.log("Return to : " + req.session.oauthReturnTo);
   next();
 };
 
@@ -45,8 +46,7 @@ const handleOAuthCallback = (provider) => (req, res, next) => {
 //GET /auth/me - route to check if the user is already authenticated with a session running
 router.get("/me", isAuthenticated);
 
-//GET /auth/logout - to logout from current session
-router.get("/logout", logout);
+//---------- LOCAL OAUTH -------------//
 
 //POST /auth/login - Initiate local auth flow
 router.post(
@@ -59,6 +59,8 @@ router.post(
 );
 router.post("/register", register_user);
 
+//---------- GOOGLE OAUTH2 -------------//
+
 //GET /auth/google - Initiate google auth flow
 router.get(
   "/google",
@@ -68,6 +70,8 @@ router.get(
 // /auth/google/callback - handle google callback
 router.get("/google/callback", handleOAuthCallback("google"));
 
+//---------- GITHUB OAUTH -------------//
+
 //GET /auth/github - Initiate github auth flow
 router.get(
   "/github",
@@ -76,5 +80,10 @@ router.get(
 );
 //GET /auth/github/callback - handle github callback
 router.get("/github/callback", handleOAuthCallback("github"));
+
+//---------- LOGOUT -------------//
+
+//GET /auth/logout - to logout from current session
+router.get("/logout", logout);
 
 export default router;
