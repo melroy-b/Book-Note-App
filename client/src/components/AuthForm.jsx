@@ -63,7 +63,9 @@ const AuthForm = (props) => {
                 {/* local login form */}
                 <Stack
                   component="form"
-                  action={`${API_URL}/auth/${props.authType}`}
+                  action={`${API_URL}/auth/${
+                    props.authType
+                  }?returnTo=${encodeURIComponent(getReturnTo())}`}
                   method="post"
                   spacing={3}
                 >

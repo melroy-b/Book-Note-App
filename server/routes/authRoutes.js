@@ -12,52 +12,40 @@ const getSafeReturnTo = (returnTo) => {
 
 const storeReturnTo = (req, res, next) => {
   req.session.oauthReturnTo = getSafeReturnTo(req.query.returnTo);
+  console.log("Return to : " + req.session.oauthReturnTo);
   req.session.save((err) => {
     if (err) return next(err);
+    next();
   });
-  console.log("Return to : " + req.session.oauthReturnTo);
-  next();
 };
 
 const handleOAuthCallback = (provider) => (req, res, next) => {
-  passport.authenticate(
-    provider,
-    {
-      failureRedirect: `${process.env.CLIENT_URL}/login?error=invalid_credentials`,
-    },
-    (err, user) => {
-      if (err) return next(err);
-      if (!user) {
-        return res.redirect(
-          `${process.env.CLIENT_URL}/login?error=invalid_credentials`
-        );
-      }
-
-      const returnTo = getSafeReturnTo(req.session.oauthReturnTo);
-      req.logIn(user, (loginError) => {
-        delete req.session.oauthReturnTo;
-        if (loginError) return next(loginError);
-        return res.redirect(`${process.env.CLIENT_URL}${returnTo}`);
-      });
+  passport.authenticate(provider, (err, user) => {
+    if (err) return next(err);
+    if (!user) {
+      return res.redirect(
+        `${process.env.CLIENT_URL}/login?error=invalid_credentials`
+      );
     }
-  )(req, res, next);
+
+    const returnTo = getSafeReturnTo(req.session.oauthReturnTo);
+    req.logIn(user, (loginError) => {
+      delete req.session.oauthReturnTo;
+      if (loginError) return next(loginError);
+      return res.redirect(`${process.env.CLIENT_URL}${returnTo}`);
+    });
+  })(req, res, next);
 };
 
 //GET /auth/me - route to check if the user is already authenticated with a session running
 router.get("/me", isAuthenticated);
+//POST /auth/register - to register a new user with local strategy
+router.post("/register", register_user);
 
-//---------- LOCAL OAUTH -------------//
+//---------- LOCAL AUTH -------------//
 
 //POST /auth/login - Initiate local auth flow
-router.post(
-  "/login",
-  storeReturnTo,
-  passport.authenticate("local", {
-    //successRedirect: `${process.env.CLIENT_URL}/`,
-    failureRedirect: `${process.env.CLIENT_URL}/login?error=invalid_credentials`,
-  })
-);
-router.post("/register", register_user);
+router.post("/login", storeReturnTo, handleOAuthCallback("local"));
 
 //---------- GOOGLE OAUTH2 -------------//
 

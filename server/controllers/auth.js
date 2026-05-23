@@ -81,7 +81,7 @@ passport.use(
             if (valid) return cb(null, user.rows[0]);
             else return cb(null, false);
           });
-        } else return cb("User not found");
+        } else return cb("User not found", false);
       } catch (err) {
         console.log(err);
       }
@@ -114,7 +114,7 @@ passport.use(
 
         console.log("google auth successful, user: ", user.rows[0]);
         return cb(null, user.rows[0]);
-      } catch (error) {
+      } catch (error) { 
         console.log(error);
         return cb(error);
       }
