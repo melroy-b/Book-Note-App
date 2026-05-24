@@ -1,10 +1,18 @@
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { useDBBookSearch } from "../hooks/useBookSearch";
 import BookCard from "../components/BookCard";
 
 const API_URL = import.meta.env.VITE_API_URL;
+
+/**
+ * Renders the saved books and notes for the current user.
+ */
 const MyBooks = () => {
-  let userId = 1;
+  const { userAuth } = useOutletContext();
+
+  
+  const userId = userAuth?.user?.id;
   const { books } = useDBBookSearch(userId);
 
   return (
