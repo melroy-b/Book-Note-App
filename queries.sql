@@ -21,6 +21,7 @@ CREATE TABLE notes (
 	content TEXT NOT NULL,
 	date_read DATE,
 	created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+	rating INTEGER CHECK (rating IS NULL OR rating BETWEEN 1 AND 5),
 	UNIQUE (user_id, book_id),
     CHECK (date_read IS NULL OR date_read <= CURRENT_DATE)
 );
