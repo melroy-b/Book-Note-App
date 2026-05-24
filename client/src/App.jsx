@@ -8,6 +8,9 @@ import BookDetails from "./pages/BookDetails.jsx";
 import MyBooks from "./pages/MyBooks.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
+/**
+ * Defines the top-level client-side routes for the book notes app.
+ */
 const App = () => {
   return (
     <Routes>

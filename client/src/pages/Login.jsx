@@ -1,6 +1,9 @@
 import { useLocation, useSearchParams } from "react-router-dom";
 import AuthForm from "../components/AuthForm";
 
+/**
+ * Renders the login page and preserves the return path after authentication.
+ */
 const Login = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -11,6 +14,7 @@ const Login = () => {
     : null;
   const returnTo = returnToFromState || searchParams.get("returnTo") || "/";
 
+  // Choose helper text based on auth-related query parameters.
   const bodyText = () => {
     if (error == "invalid_credentials")
       return "Invalid username/email or password";

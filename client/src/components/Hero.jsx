@@ -1,6 +1,10 @@
 import Button from "@mui/material/Button";
 
+/**
+ * Renders the home page hero and focuses the navbar search on demand.
+ */
 const Hero = () => {
+  // Move the user to the navbar search input and select any existing text.
   const handleSearchClick = () => {
     const searchInput = document.getElementById("navbar-search-input");
     if (!searchInput) return;

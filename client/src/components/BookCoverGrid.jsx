@@ -8,6 +8,9 @@ import { Box, Grid } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import Rating from "@mui/material/Rating";
 
+/**
+ * Displays the book cover, rating UI, note action, and note save feedback.
+ */
 const BookCoverGrid = (props) => {
   const [hoveredStar, setHoveredStar] = useState(0);
   const [snackBar, setSnackBar] = useState({
@@ -17,6 +20,10 @@ const BookCoverGrid = (props) => {
   });
 
   const { postBookNote, loading } = usePostBookNote();
+
+  /**
+   * Saves a note from the modal and opens a success or error snackbar.
+   */
   async function onSubmit(params) {
     let response = {};
     try {

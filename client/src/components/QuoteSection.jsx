@@ -1,5 +1,8 @@
 import Card from "react-bootstrap/Card";
 
+/**
+ * Renders a simple quote section for the home page.
+ */
 const Quote = (props) => {
   return (
     <Card className="text-center">

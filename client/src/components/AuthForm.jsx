@@ -17,7 +17,12 @@ import { Link as RouterLink } from "react-router-dom";
 import BookLibrary from "../assets/book-library.jpg";
 
 const API_URL = import.meta.env.VITE_API_URL;
+
+/**
+ * Renders the shared login/register form with local and OAuth entry points.
+ */
 const AuthForm = (props) => {
+  // Prefer an explicit return path, otherwise fall back to the current page.
   const getReturnTo = () =>
     props.returnTo ||
     `${window.location.pathname}${window.location.search}${window.location.hash}`;
@@ -25,11 +30,13 @@ const AuthForm = (props) => {
     props.CreateAccount ? "/login" : "/register"
   }?returnTo=${encodeURIComponent(getReturnTo())}`;
 
+  // Start Google OAuth and preserve the page the user should return to.
   const handleGoogleLogin = () => {
     const returnTo = encodeURIComponent(getReturnTo());
     window.location.href = `${API_URL}/auth/google?returnTo=${returnTo}`;
   };
 
+  // Start GitHub OAuth and preserve the page the user should return to.
   const handleGithubLogin = () => {
     const returnTo = encodeURIComponent(getReturnTo());
     window.location.href = `${API_URL}/auth/github?returnTo=${returnTo}`;

@@ -1,5 +1,8 @@
 import db from "../db/index.js";
 
+/**
+ * Saves a user's book note, creating the book record first when needed.
+ */
 export const postUserNotes = async (req, res) => {
   const {
     bookTitle,
@@ -14,9 +17,7 @@ export const postUserNotes = async (req, res) => {
   } = req.body;
 
   try {
-    //Check if the username exists, if yes get the user.id (Currently only single user)
-
-    //Fetch book.id if book exists with bookOLID, if not create a new entry
+    // Reuse an existing Open Library book record or create one for this note.
     const bookResp = await db.query("SELECT id FROM books WHERE ol_id = $1;", [
       bookOLID,
     ]);
@@ -31,8 +32,7 @@ export const postUserNotes = async (req, res) => {
             )
             .then((s) => s.rows[0].id);
 
-    // console.log(dbBookID);
-    //Create a new unique note with foreign key book.id and user.id
+    // Create a note connected to the authenticated user and stored book record.
     await db.query(
       "INSERT INTO notes (user_id, book_id, content, date_read) VALUES ($1, $2, $3, $4);",
       [userID, dbBookID, noteContent, date_read]

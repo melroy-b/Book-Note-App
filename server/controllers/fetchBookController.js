@@ -1,10 +1,12 @@
 import axios from "axios";
 import db from "../db/index.js";
 
-// Open Library API base URL
+// Open Library API base URL.
 const openLibraryUrl = "http://openlibrary.org/";
 
-// Get books from database for a user
+/**
+ * Fetches all saved book notes for a single user from the database.
+ */
 export const getUserBooks = async (req, res) => {
   const userId = parseInt(req.params.userId);
   if (!userId) {
@@ -26,7 +28,9 @@ export const getUserBooks = async (req, res) => {
   }
 };
 
-// Search books from external API (Open Library) with search query
+/**
+ * Searches Open Library for books matching the query string.
+ */
 export const searchBooks = async (req, res) => {
   const query = req.query.q?.trim();
   console.log("Search query:", query);
@@ -50,7 +54,9 @@ export const searchBooks = async (req, res) => {
   }
 };
 
-// Get book details from external API (Open Library) with book ID, author ID, and edition ID
+/**
+ * Fetches book, author, edition, and language details from Open Library.
+ */
 export const getBookDetails = async (req, res) => {
   const bookId = req.params.bookId;
   const editionId = req.query.edition?.trim();
@@ -62,20 +68,14 @@ export const getBookDetails = async (req, res) => {
   }
 
   try {
-    // This endpoint return the book details, author details, edition details, and language details in a single response
-
-    //book Details like
+    // Book details such as description, subjects, covers, and revision.
     const bookResult = await axios.get(`${openLibraryUrl}works/${bookId}.json`);
-    //author details like name, birth date, death date, etc.
+    // Author details such as name, birth date, death date, and bio.
     const authorResult = await axios.get(
       `${openLibraryUrl}authors/${authorId}.json`
     );
 
-    //This endpoint will only run if editionId and bookResult.data?.languages?.length > 0 are present, otherwise it will return an empty object.
-    //This is because the edition details are only relevant if there are publishing details available for the book and if yes, languages data present?.
-    //If there is no data, then there is no need to fetch the edition details, which can save time and resources.
-
-    //edition details like publish date, publisher, number of pages, etc.
+    // Edition and language details are optional because not every result has them.
     let bookPublishResult = {};
     let languageResult = {};
     if (editionId) {

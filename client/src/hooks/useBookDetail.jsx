@@ -2,11 +2,16 @@ import { useState, useEffect } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+/**
+ * Loads detailed Open Library data for a selected book, author, and edition.
+ */
 const useBookDetail = (bookId, authorId, editionId) => {
   const [results, setResults] = useState({});
 
   useEffect(() => {
     const controller = new AbortController();
+
+    // Fetch the server-merged book summary and ignore aborted requests.
     const searchBookSummary = async () => {
       if (!bookId) return;
 

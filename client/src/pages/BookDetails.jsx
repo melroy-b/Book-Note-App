@@ -6,13 +6,16 @@ import BookMetaGrid from "../components/BookMetaGrid";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
+/**
+ * Displays a selected book's details, cover, metadata, and note action.
+ */
 const BookDetails = () => {
   const { bookId } = useParams();
   const [searchParams] = useSearchParams();
   const authorId = searchParams.get("author");
   const editionId = searchParams.get("edition");
 
-  //Custom hooks
+  // Load Open Library details through the app API.
   const bookDetail = useBookDetail(bookId, authorId, editionId);
 
   const {
@@ -29,6 +32,7 @@ const BookDetails = () => {
   } = bookDetail || {};
 
   const rawDescription = bookDetail?.description;
+  // Open Library may return descriptions as either plain text or an object.
   const descriptionText =
     typeof rawDescription === "string"
       ? rawDescription

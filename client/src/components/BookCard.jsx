@@ -8,6 +8,9 @@ import {
   Divider,
 } from "@mui/material";
 
+/**
+ * Displays one saved book note with cover, metadata, and note preview.
+ */
 const BookCard = ({ book }) => {
   return (
     <Card

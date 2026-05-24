@@ -21,6 +21,7 @@ import BrandLogo from "../assets/journal-bookmark-fill.svg";
 import useDebounce from "../hooks/useDebounce";
 import useBookSearch from "../hooks/useBookSearch";
 
+// Styled wrapper for the navbar search input and dropdown.
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -36,6 +37,7 @@ const Search = styled("div")(({ theme }) => ({
   },
 }));
 
+// Positions the search icon inside the input.
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   color: "white",
   padding: theme.spacing(0, 2),
@@ -48,6 +50,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
+// Search input styled to expand on larger screens when focused.
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "white",
   width: "100%",
@@ -65,6 +68,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+/**
+ * Renders navigation, authenticated account controls, and live book search.
+ */
 const NavBar = () => {
   const [searchText, setSearchText] = useState("");
   const searchRef = useRef(null);
@@ -81,6 +87,7 @@ const NavBar = () => {
   const { isAuthenticated, setIsAuthenticated } = useCheckAuthentication();
 
   useEffect(() => {
+    // Close the dropdown when the user clicks outside the search area.
     const handleOutsidePointer = (e) => {
       if (!searchRef.current?.contains(e.target)) {
         setShowDropdown(false);
@@ -93,6 +100,7 @@ const NavBar = () => {
   }, [setShowDropdown]);
 
   useEffect(() => {
+    // Show API search errors in a temporary snackbar.
     setSnackBar({
       open: true,
       variant: "error",
@@ -175,7 +183,7 @@ const NavBar = () => {
               )}
               {!loading &&
                 results.map((book) => (
-                  //Dropdown component that links to book details page with book key and author key as params
+                  // Link each search result to the details page with book and author ids.
                   <DropDownLink
                     key={book?.key}
                     book={book}

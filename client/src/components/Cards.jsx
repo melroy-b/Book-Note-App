@@ -5,6 +5,9 @@ import BookLibrary from "../assets/book-library.jpg";
 import NoteBook from "../assets/notebook.jpg";
 import WebThoughts from "../assets/web-of-thoughts.jpg";
 
+/**
+ * Renders the home page feature cards for search, notes, and shared thoughts.
+ */
 const Cards = () => {
   return (
     <div className="container px-4 py-5" id="custom-cards">

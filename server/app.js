@@ -10,9 +10,12 @@ dotenv.config();
 
 const app = express();
 
+// Allow the React client to send session cookies with API requests.
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Configure cookie-backed sessions used by Passport authentication.
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -24,6 +27,8 @@ app.use(
     },
   })
 );
+
+// Attach Passport authentication and session state to each request.
 app.use(passport.initialize());
 app.use(passport.session());
 

@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Snackbar, Box, Alert } from "@mui/material";
 
+/**
+ * Shows a temporary success or error alert anchored to the bottom right.
+ */
 const AutohideSnackbar = (props) => {
+  // Ignore clickaway closes but forward all other close events to the parent.
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;

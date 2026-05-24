@@ -4,6 +4,9 @@ import Grid from "@mui/material/Grid";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
+/**
+ * Shows book title, author, expandable description, and publishing metadata.
+ */
 const BookMetaGrid = (props) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [canExpand, setCanExpand] = useState(false);
@@ -13,7 +16,7 @@ const BookMetaGrid = (props) => {
     const el = descriptionRef.current;
     if (!el) return;
     setIsExpanded(false);
-    // Check if the content overflows the container
+    // Enable the read-more control only when the description overflows.
     setCanExpand(el.scrollHeight > el.clientHeight + 1);
   }, [props.descriptionText]);
 

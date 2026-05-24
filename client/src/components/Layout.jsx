@@ -2,6 +2,9 @@ import NavBar from "./NavBar";
 import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
 
+/**
+ * Provides the shared page shell around all nested routes.
+ */
 const Layout = () => {
   return (
     <div className="d-flex flex-column min-vh-100">

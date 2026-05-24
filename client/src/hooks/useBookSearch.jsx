@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+/**
+ * Searches for books after the caller provides debounced search text.
+ */
 const useBookSearch = (debouncedText) => {
   const controller = new AbortController();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -10,6 +13,7 @@ const useBookSearch = (debouncedText) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // Run the search for the current debounced value and reset empty queries.
     const runSearch = async () => {
       if (!debouncedText) {
         setResults([]);
@@ -53,13 +57,23 @@ const useBookSearch = (debouncedText) => {
   return [results, loading, showDropdown, setShowDropdown, error];
 };
 
+/**
+ * Loads books saved by a specific user from the app database.
+ */
 export const useDBBookSearch = (userId) => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
     const controller = new AbortController();
+
+    // Avoid a request until the authenticated user's id is available.
     const fetchBooks = async () => {
       try {
+        if (!userId) {
+          setBooks([]);
+          return;
+        }
+
         const response = await fetch(
           `${API_URL}/api/books/${userId}/fetch_books`,
           {

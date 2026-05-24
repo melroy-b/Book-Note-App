@@ -1,6 +1,9 @@
 import { useSearchParams } from "react-router-dom";
 import AuthForm from "../components/AuthForm";
 
+/**
+ * Renders the registration page and keeps the intended post-auth redirect.
+ */
 const Register = () => {
   const [searchParams] = useSearchParams();
   const returnTo = searchParams.get("returnTo") || "/";

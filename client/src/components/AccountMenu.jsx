@@ -11,19 +11,27 @@ import {
 import Logout from "@mui/icons-material/Logout";
 import { useState } from "react";
 
+/**
+ * Shows the authenticated user's account menu and logout action.
+ */
 export const AccountMenu = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
+  // Open the menu from the avatar button.
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     //window.location.href = `${import.meta.env.VITE_API_URL}/auth/logout`;
   };
 
+  // Redirect to the server logout route so the session can be destroyed.
   const handleLogout = () => {
+    // Close the menu before redirecting.
+    handleClose();
     window.location.href = `${import.meta.env.VITE_API_URL}/auth/logout`;
   };
 
+  // Close the account menu.
   const handleClose = () => {
     setAnchorEl(null);
   };

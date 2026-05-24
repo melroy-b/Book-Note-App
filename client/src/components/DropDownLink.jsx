@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 
+/**
+ * Renders one search dropdown result and links to its book details page.
+ */
 const DropDownLink = (props) => {
   const {
     cover_i = null,
@@ -29,6 +32,7 @@ const DropDownLink = (props) => {
       )}&edition=${encodeURIComponent(cover_edition_key)}`}
       onMouseDown={(e) => e.preventDefault()}
       onClick={() => {
+        // Clear the search UI after a result is selected.
         props.setShowDropdown(false);
         props.setSearchText("");
       }}

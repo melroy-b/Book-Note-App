@@ -2,9 +2,15 @@ import { useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+/**
+ * Posts a book note to the API and exposes loading state for submit buttons.
+ */
 const usePostBookNote = () => {
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Sends one note payload to the server and normalizes the success/error shape.
+   */
   const postBookNote = async (payload) => {
     let postResponse = {};
     let postData = {};

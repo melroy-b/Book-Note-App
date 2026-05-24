@@ -1,5 +1,8 @@
 import { GitHub, LinkedIn } from "@mui/icons-material";
 
+/**
+ * Renders the app footer with copyright and social links.
+ */
 const Footer = () => {
   return (
     <footer className="text-light py-3 mt-auto" style={{backgroundColor: "#444444"}}>

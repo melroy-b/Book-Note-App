@@ -8,6 +8,9 @@ import env from "dotenv";
 
 env.config();
 
+/**
+ * Returns the current session user when authenticated, otherwise responds 401.
+ */
 export const isAuthenticated = (req, res) => {
   if (req.isAuthenticated()) {
     res.json({ user: req.user });
@@ -16,6 +19,9 @@ export const isAuthenticated = (req, res) => {
   }
 };
 
+/**
+ * Logs the current user out and redirects back to the client app.
+ */
 export const logout = (req, res) => {
   try {
     req.logout((err) => {
@@ -27,6 +33,9 @@ export const logout = (req, res) => {
   }
 };
 
+/**
+ * Creates a local user account, logs the new user in, and redirects to the client.
+ */
 export const register_user = async (req, res) => {
   try {
     const {
@@ -62,7 +71,7 @@ export const register_user = async (req, res) => {
   }
 };
 
-//local strategy for username/email and password authentication
+// Local strategy for username/email and password authentication.
 passport.use(
   "local",
   new LocalStrategy(
@@ -89,7 +98,7 @@ passport.use(
   )
 );
 
-//google strategy for authentication with google oauth
+// Google strategy creates or finds a user from the OAuth profile email.
 passport.use(
   "google",
   new GoogleStrategy(
@@ -122,7 +131,7 @@ passport.use(
   )
 );
 
-//github strategy for authentication with github oauth
+// GitHub strategy creates or finds a user from the OAuth profile email.
 passport.use(
   "github",
   new GithubStrategy(
@@ -155,10 +164,12 @@ passport.use(
   )
 );
 
+// Store only the database user id in the session cookie.
 passport.serializeUser((user, cb) => {
   cb(null, user.id);
 });
 
+// Rehydrate the full user record for requests with an active session.
 passport.deserializeUser(async (id, cb) => {
   const user = await db.query("SELECT * FROM users WHERE id = $1", [id]);
   cb(null, user.rows[0]);

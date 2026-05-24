@@ -17,6 +17,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { use } from "react";
 
+/**
+ * Opens a modal for authenticated users to add a note and read date for a book.
+ */
 const AddNoteModal = (props) => {
   const [open, setOpen] = useState(false);
   const [noteContent, setNoteContent] = useState(props.initialNote ?? "");
@@ -31,6 +34,7 @@ const AddNoteModal = (props) => {
   const returnTo = `${location.pathname}${location.search}${location.hash}`;
   const { isAuthenticated, userAuth } = useCheckAuthentication();
 
+  // Require login before opening the note form.
   const handleOpen = () => {
     if (!isAuthenticated) {
       navigate(`/login?returnTo=${encodeURIComponent(returnTo)}`, {
@@ -45,11 +49,13 @@ const AddNoteModal = (props) => {
     setOpen(true);
   };
 
+  // Close the modal and clear validation messages.
   const handleClose = () => {
     setOpen(false);
     setError("");
   };
 
+  // Validate the note and hand the normalized payload to the parent submitter.
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -78,6 +84,7 @@ const AddNoteModal = (props) => {
     }
   };
 
+  // Restore the modal to its initial note state.
   const handleReset = () => {
     setNoteContent(props.initialNote ?? "");
     setDate(null);
