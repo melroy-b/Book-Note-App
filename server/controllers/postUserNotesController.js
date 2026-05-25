@@ -14,6 +14,7 @@ export const postUserNotes = async (req, res) => {
     date_read,
     userName,
     userID,
+    rating,
   } = req.body;
 
   try {
@@ -34,8 +35,8 @@ export const postUserNotes = async (req, res) => {
 
     // Create a note connected to the authenticated user and stored book record.
     await db.query(
-      "INSERT INTO notes (user_id, book_id, content, date_read) VALUES ($1, $2, $3, $4);",
-      [userID, dbBookID, noteContent, date_read]
+      "INSERT INTO notes (user_id, book_id, content, date_read, rating) VALUES ($1, $2, $3, $4, $5);",
+      [userID, dbBookID, noteContent, date_read, rating]
     );
 
     console.log("server object: ", req.body);

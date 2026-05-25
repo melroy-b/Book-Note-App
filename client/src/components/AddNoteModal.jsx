@@ -9,13 +9,13 @@ import {
   TextField,
   Stack,
   Typography,
+  Rating,
 } from "@mui/material";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { use } from "react";
 
 /**
  * Opens a modal for authenticated users to add a note and read date for a book.
@@ -28,6 +28,7 @@ const AddNoteModal = (props) => {
     props.date_read ? dayjs(props.date_read) : null
   );
   const [error, setError] = useState("");
+  const [value, setValue] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -75,11 +76,13 @@ const AddNoteModal = (props) => {
       userName: user?.userName,
       userID: user?.userID,
       date_read: date ? date.format("YYYY-MM-DD") : null,
+      rating: value,
     });
 
     if (response.success) {
       setNoteContent("");
       setDate(null);
+      setValue(null);
       handleClose();
     }
   };
@@ -88,11 +91,22 @@ const AddNoteModal = (props) => {
   const handleReset = () => {
     setNoteContent(props.initialNote ?? "");
     setDate(null);
+    setValue(null);
     setError("");
   };
 
   return (
     <Box>
+      <Box className="rating-star__container">
+        <Rating
+          name="half-rating"
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+            handleOpen();
+          }}
+        />
+      </Box>
       <Tooltip title="Add your book notes" placement="right">
         <Button sx={{ color: "#414141" }} onClick={handleOpen}>
           <EditNoteIcon sx={{ height: "40px", width: "40px" }} />
@@ -142,13 +156,21 @@ const AddNoteModal = (props) => {
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="subtitle2" color="text.secondary">
-                  User name
-                </Typography>
-                <Typography variant="body1">{user.userName}</Typography>
-                {/* <Typography variant="subtitle2" hidden>
-                  {props.userID ?? 1}
-                </Typography> */}
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    User name
+                  </Typography>
+                  <Typography variant="body1">{user.userName}</Typography>
+                </Box>
+                <Box sx={{ mt: 3.5 }}>
+                  <Rating
+                    name="half-rating"
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                    }}
+                  />
+                </Box>
               </Box>
             </Stack>
 

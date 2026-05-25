@@ -71,9 +71,15 @@ const BookCoverGrid = (props) => {
           alt="book-cover-main"
         />
       </Box>
-      <Box className="rating-star__container">
-        <Rating name="half-rating" value={null} />
-      </Box>
+      {/* <Box className="rating-star__container">
+        <Rating
+          name="half-rating"
+          value={null}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+        />
+      </Box> */}
       <Box className="d-flex gap-2">
         <AddNoteModal
           bookTitle={props.bookTitle}
