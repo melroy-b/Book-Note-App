@@ -42,6 +42,7 @@ export const postUserNotes = async (req, res) => {
     console.log("server object: ", req.body);
     res.status(201).json("ok"); //Request created successful
   } catch (error) {
+    console.error("Error posting data into database: ", error);
     res
       .status(500)
       .json({ message: "Error posting data into database", error: error.code });
