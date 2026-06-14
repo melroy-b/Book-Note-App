@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
+import { useBookNoteSearch } from "../hooks/useBookSearch";
 import {
   Box,
   Button,
@@ -22,11 +23,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
  */
 const AddNoteModal = (props) => {
   const [open, setOpen] = useState(false);
-  const [noteContent, setNoteContent] = useState(props.initialNote ?? "");
+  const [noteContent, setNoteContent] = useState("");
   const [user, setUser] = useState({ userID: null, userName: "Unknown User" });
-  const [date, setDate] = useState(
-    props.date_read ? dayjs(props.date_read) : null
-  );
+  const [date, setDate] = useState(null);
   const [error, setError] = useState("");
   const [value, setValue] = useState(null);
 
@@ -34,19 +33,32 @@ const AddNoteModal = (props) => {
   const location = useLocation();
   const returnTo = `${location.pathname}${location.search}${location.hash}`;
   const { isAuthenticated, userAuth } = useCheckAuthentication();
+  const { note: existingNote, fetchBookNote } = useBookNoteSearch();
 
   // Require login before opening the note form.
   const handleOpen = () => {
+    // Avoid a redirect loop by checking authentication status before navigating to login.
     if (!isAuthenticated) {
       navigate(`/login?returnTo=${encodeURIComponent(returnTo)}`, {
         replace: true,
       });
       return;
+    } else {
+      // Check for an existing note and prefill the form for editing if found.
+      fetchBookNote(userAuth?.user.id, props?.bookOLID);
+      setNoteContent(existingNote[0].content ?? "");
+      setDate(
+        existingNote[0].date_read ? dayjs(existingNote[0].date_read) : null
+      );
+      setValue(existingNote[0].rating ?? null);
     }
+
     setUser({
       userID: userAuth?.user.id,
       userName: userAuth?.user.username ?? "Unknown User",
     });
+
+    // Open the note form modal.
     setOpen(true);
   };
 
@@ -89,7 +101,9 @@ const AddNoteModal = (props) => {
 
   // Restore the modal to its initial note state.
   const handleReset = () => {
-    setNoteContent(props.initialNote ?? "");
+    setNoteContent(
+      existingNote.length === 0 ? props.initialNote ?? "" : existingNote[0].note
+    );
     setDate(null);
     setValue(null);
     setError("");

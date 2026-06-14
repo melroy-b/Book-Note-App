@@ -110,51 +110,50 @@ export const useDBBookSearch = (userId) => {
  * Loads a specific book note saved by a specific user from the app database for editing.
  * If a note is not found, an empty array is returned.
  */
-export const useBookNoteSearch = (userId, bookId) => {
+export const useBookNoteSearch = () => {
   const [note, setNote] = useState([]);
 
-  useEffect(() => {
-    const controller = new AbortController();
+  // useEffect(() => {
 
-    // Avoid a request until the authenticated user's id is available.
-    const fetchNote = async () => {
-      try {
-        if (!userId) {
-          setNote([]);
-          return;
-        }
+  //   return () => controller.abort();
+  // }, [userId, bookId]);
 
-        const response = await fetch(
-          `${API_URL}/api/books/${userId}/fetch_books?bookId=${bookId}`,
-          {
-            credentials: "include",
-            signal: controller.signal,
-          }
-        );
-
-        const response_json = await response.json();
-        if (!response.ok)
-          throw new Error(response_json.error || "DATABASE_ERROR");
-
-        const fetchedNote = response_json.data;
-        setNote(fetchedNote);
-      } catch (error) {
-        if (error.name != "AbortError") {
-          console.error(
-            `Error fetching the note from database for book ${bookId}: `,
-            error.message
-          );
-          setNote([]);
-        }
+  // Avoid a request until the authenticated user's id is available.
+  const controller = new AbortController();
+  const fetchBookNote = async (userId, bookId) => {
+    try {
+      if (!userId) {
+        setNote([]);
+        return;
       }
-    };
 
-    fetchNote();
+      const response = await fetch(
+        `${API_URL}/api/books/${userId}/fetch_books?bookId=${bookId}`,
+        {
+          credentials: "include",
+          signal: controller.signal,
+        }
+      );
 
-    return () => controller.abort();
-  }, [userId, bookId]);
+      const response_json = await response.json();
+      if (!response.ok)
+        throw new Error(response_json.error || "DATABASE_ERROR");
 
-  return { note };
+      const fetchedNote = response_json.data;
+      console.log("Fetched note:", fetchedNote);
+      setNote(fetchedNote);
+    } catch (error) {
+      if (error.name != "AbortError") {
+        console.error(
+          `Error fetching the note from database for book ${bookId}: `,
+          error.message
+        );
+        setNote([]);
+      }
+    }
+  };
+
+  return { note, fetchBookNote };
 };
 
 export default useBookSearch;
