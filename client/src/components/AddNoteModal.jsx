@@ -36,7 +36,7 @@ const AddNoteModal = (props) => {
   const { note: existingNote, fetchBookNote } = useBookNoteSearch();
 
   // Require login before opening the note form.
-  const handleOpen = () => {
+  const handleOpen = async () => {
     // Avoid a redirect loop by checking authentication status before navigating to login.
     if (!isAuthenticated) {
       navigate(`/login?returnTo=${encodeURIComponent(returnTo)}`, {
@@ -45,12 +45,12 @@ const AddNoteModal = (props) => {
       return;
     } else {
       // Check for an existing note and prefill the form for editing if found.
-      fetchBookNote(userAuth?.user.id, props?.bookOLID);
-      setNoteContent(existingNote[0].content ?? "");
+      await fetchBookNote(userAuth?.user.id, props?.bookOLID);
+      setNoteContent(existingNote[0]?.content ?? "");
       setDate(
-        existingNote[0].date_read ? dayjs(existingNote[0].date_read) : null
+        existingNote[0]?.date_read ? dayjs(existingNote[0]?.date_read) : null
       );
-      setValue(existingNote[0].rating ?? null);
+      setValue(existingNote[0]?.rating ?? null);
     }
 
     setUser({
@@ -116,8 +116,8 @@ const AddNoteModal = (props) => {
           name="half-rating"
           value={value}
           onChange={(event, newValue) => {
-            setValue(newValue);
             handleOpen();
+            setValue(newValue);
           }}
         />
       </Box>

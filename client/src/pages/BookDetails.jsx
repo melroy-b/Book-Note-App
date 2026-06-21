@@ -44,7 +44,7 @@ const BookDetails = () => {
         sx={{
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "2fr 1fr" },
-          gridTemplateRows: "auto auto",
+          gridTemplateRows: "0.3fr auto",
           gap: 1,
         }}
       >
