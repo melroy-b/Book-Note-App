@@ -20,9 +20,9 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/book/:bookId" element={<BookDetails />} />
-        <Route path="/editnote/:noteId" element={<NoteEdit />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/mybooks" element={<MyBooks />} />
+          <Route path="/editnote/:noteId" element={<NoteEdit />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Route>

@@ -140,8 +140,9 @@ export const useBookNoteSearch = () => {
         throw new Error(response_json.error || "DATABASE_ERROR");
 
       const fetchedNote = response_json.data;
-      console.log("Fetched note:", fetchedNote);
       setNote(fetchedNote);
+
+      return { success: true, data: fetchedNote };
     } catch (error) {
       if (error.name != "AbortError") {
         console.error(
@@ -149,11 +150,12 @@ export const useBookNoteSearch = () => {
           error.message
         );
         setNote([]);
+        return { success: false, error: error.message };
       }
     }
   };
 
-  return { note, fetchBookNote };
+  return { fetchBookNote };
 };
 
 export default useBookSearch;

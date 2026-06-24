@@ -33,7 +33,7 @@ const AddNoteModal = (props) => {
   const location = useLocation();
   const returnTo = `${location.pathname}${location.search}${location.hash}`;
   const { isAuthenticated, userAuth } = useCheckAuthentication();
-  const { note: existingNote, fetchBookNote } = useBookNoteSearch();
+  const { fetchBookNote } = useBookNoteSearch();
 
   // Require login before opening the note form.
   const handleOpen = async () => {
@@ -45,12 +45,17 @@ const AddNoteModal = (props) => {
       return;
     } else {
       // Check for an existing note and prefill the form for editing if found.
-      await fetchBookNote(userAuth?.user.id, props?.bookOLID);
-      setNoteContent(existingNote[0]?.content ?? "");
-      setDate(
-        existingNote[0]?.date_read ? dayjs(existingNote[0]?.date_read) : null
-      );
-      setValue(existingNote[0]?.rating ?? null);
+      const response = await fetchBookNote(userAuth?.user.id, props?.bookOLID);
+      if (response.success) {
+        console.log("Existing note fetched:", response.data);
+        setNoteContent(response.data[0]?.content ?? "");
+        setDate(
+          response.data[0]?.date_read
+            ? dayjs(response.data[0]?.date_read)
+            : null
+        );
+        setValue(response.data[0]?.rating ?? null);
+      }
     }
 
     setUser({
@@ -102,7 +107,7 @@ const AddNoteModal = (props) => {
   // Restore the modal to its initial note state.
   const handleReset = () => {
     setNoteContent(
-      existingNote.length === 0 ? props.initialNote ?? "" : existingNote[0].note
+      noteContent.length === 0 ? props.initialNote ?? "" : noteContent[0].note
     );
     setDate(null);
     setValue(null);
