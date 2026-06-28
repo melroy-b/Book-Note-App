@@ -17,8 +17,8 @@ export const useCheckAuthentication = () => {
         });
 
         if (user.ok) {
-          setIsAuthenticated(true);
           setUserAuth(await user.json());
+          setIsAuthenticated(true);
         }
       } catch (error) {
         console.error("Authentication check failed:", error);
@@ -30,5 +30,5 @@ export const useCheckAuthentication = () => {
     checkUserAuthentication();
   }, [setIsAuthenticated]);
 
-  return {isCheckingAuth, setIsAuthenticated, isAuthenticated, userAuth};
+  return { isCheckingAuth, setIsAuthenticated, isAuthenticated, userAuth };
 };

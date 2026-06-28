@@ -141,7 +141,7 @@ export const useBookNoteSearch = () => {
 
       const fetchedNote = response_json.data;
       setNote(fetchedNote);
-
+      console.log("Fetched note from database:", fetchedNote);
       return { success: true, data: fetchedNote };
     } catch (error) {
       if (error.name != "AbortError") {
