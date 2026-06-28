@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
 import { useBookNoteSearch } from "../hooks/useBookSearch";
@@ -27,13 +27,37 @@ const AddNoteModal = (props) => {
   const [user, setUser] = useState({ userID: null, userName: "Unknown User" });
   const [date, setDate] = useState(null);
   const [error, setError] = useState("");
-  const [value, setValue] = useState(null);
+  const [rating, setRating] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
   const returnTo = `${location.pathname}${location.search}${location.hash}`;
   const { isAuthenticated, userAuth } = useCheckAuthentication();
   const { fetchBookNote } = useBookNoteSearch();
+
+  useEffect(() => {
+    const fetchExistingNote = async () => {
+      if (isAuthenticated) {
+        // Check for an existing note and prefill the form for editing if found.
+        const response = await fetchBookNote(
+          userAuth?.user.id,
+          props?.bookOLID
+        );
+        if (response.success) {
+          console.log("Existing note fetched:", response.data);
+          setNoteContent(response.data[0]?.content ?? "");
+          setDate(
+            response.data[0]?.date_read
+              ? dayjs(response.data[0]?.date_read)
+              : null
+          );
+          setRating(response.data[0]?.rating ?? null);
+        }
+      }
+    };
+
+    fetchExistingNote();
+  }, [isAuthenticated, open]);
 
   // Require login before opening the note form.
   const handleOpen = async () => {
@@ -43,19 +67,6 @@ const AddNoteModal = (props) => {
         replace: true,
       });
       return;
-    } else {
-      // Check for an existing note and prefill the form for editing if found.
-      const response = await fetchBookNote(userAuth?.user.id, props?.bookOLID);
-      if (response.success) {
-        console.log("Existing note fetched:", response.data);
-        setNoteContent(response.data[0]?.content ?? "");
-        setDate(
-          response.data[0]?.date_read
-            ? dayjs(response.data[0]?.date_read)
-            : null
-        );
-        setValue(response.data[0]?.rating ?? null);
-      }
     }
 
     setUser({
@@ -93,13 +104,13 @@ const AddNoteModal = (props) => {
       userName: user?.userName,
       userID: user?.userID,
       date_read: date ? date.format("YYYY-MM-DD") : null,
-      rating: value,
+      rating: rating,
     });
 
     if (response.success) {
       setNoteContent("");
       setDate(null);
-      setValue(null);
+      setRating(null);
       handleClose();
     }
   };
@@ -107,10 +118,10 @@ const AddNoteModal = (props) => {
   // Restore the modal to its initial note state.
   const handleReset = () => {
     setNoteContent(
-      noteContent.length === 0 ? props.initialNote ?? "" : noteContent[0].note
+      noteContent.length === 0 ? props.initialNote ?? "" : noteContent
     );
     setDate(null);
-    setValue(null);
+    setRating(null);
     setError("");
   };
 
@@ -119,19 +130,21 @@ const AddNoteModal = (props) => {
       <Box className="rating-star__container">
         <Rating
           name="half-rating"
-          value={value}
+          value={rating}
           onChange={(event, newValue) => {
             handleOpen();
-            setValue(newValue);
+            setRating(newValue);
           }}
         />
       </Box>
-      <Tooltip title="Add your book notes" placement="right">
-        <Button sx={{ color: "#414141" }} onClick={handleOpen}>
-          <EditNoteIcon sx={{ height: "40px", width: "40px" }} />
-          Note
-        </Button>
-      </Tooltip>
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <Tooltip title="Add your book notes" placement="right">
+          <Button sx={{ color: "#414141" }} onClick={handleOpen}>
+            <EditNoteIcon sx={{ height: "40px", width: "40px" }} />
+            Note
+          </Button>
+        </Tooltip>
+      </Box>
       <Modal
         open={open}
         onClose={handleClose}
@@ -184,9 +197,9 @@ const AddNoteModal = (props) => {
                 <Box sx={{ mt: 3.5 }}>
                   <Rating
                     name="half-rating"
-                    value={value}
+                    value={rating}
                     onChange={(event, newValue) => {
-                      setValue(newValue);
+                      setRating(newValue);
                     }}
                   />
                 </Box>
