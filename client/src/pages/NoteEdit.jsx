@@ -2,6 +2,8 @@ import { useParams, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useBookNoteSearch } from "../hooks/useBookSearch";
 import BookCoverGrid from "../components/BookCoverGrid";
+import BookMetaGrid from "../components/BookMetaGrid";
+import Box from "@mui/material/Box";
 
 const NoteEdit = () => {
   const { noteId } = useParams();
@@ -21,18 +23,44 @@ const NoteEdit = () => {
     }
 
     fetchNote();
-  }, [userAuth?.user.id, noteId]);
+  }, [existingNote?.user_id]);
+
+  // Called by child component when the content gets updated
+  function onNoteFetched(fetchedNote) {
+    setExistingNote(fetchedNote);
+  }
 
   return (
-    <div>
-      <BookCoverGrid
-        rawCovers={existingNote?.book_cover ? [existingNote.book_cover] : []}
-        bookTitle={existingNote?.title}
-        authorName={existingNote?.author_name}
-        authorId={existingNote?.author_key}
-        bookOLID={existingNote?.ol_id}
-      />
-    </div>
+    <Box sx={{ flexGrow: 1, padding: "20px" }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "2fr 1fr" },
+          gridTemplateRows: "0.3fr auto",
+          gap: 1,
+        }}
+      >
+        <BookCoverGrid
+          rawCovers={existingNote?.book_cover ? [existingNote.book_cover] : []}
+          bookTitle={existingNote?.title}
+          authorName={existingNote?.author_name}
+          authorId={existingNote?.author_key}
+          bookOLID={existingNote?.ol_id}
+          onNoteFetched={onNoteFetched}
+        />
+        <BookMetaGrid
+          title={existingNote?.title}
+          personal_name={existingNote?.author_name}
+          authorId={existingNote?.author_key}
+          bookOLID={existingNote?.ol_id}
+          created_at={existingNote?.created_at}
+          date_read={existingNote?.date_read}
+          publish_date={null}
+          publishers={[]}
+          descriptionText={existingNote?.content}
+        />
+      </Box>
+    </Box>
   );
 };
 
