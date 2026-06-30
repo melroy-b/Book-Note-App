@@ -53,6 +53,9 @@ const AddNoteModal = (props) => {
           );
           setRating(response.data[0]?.rating ?? null);
         }
+
+        //Tell the parent component about the fetched note for further processing if needed.
+        props.onNoteFetched?.(response.data[0] ?? null);
       }
     };
 
@@ -118,7 +121,6 @@ const AddNoteModal = (props) => {
   // Restore the modal to its initial note state.
   const handleReset = () => {
     setNoteContent(
-      noteContent.length === 0 ? props.initialNote ?? "" : noteContent
     );
     setDate(null);
     setRating(null);
