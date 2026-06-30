@@ -3,6 +3,8 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
 
 /**
  * Shows book title, author, expandable description, and publishing metadata.
@@ -39,7 +41,10 @@ const BookMetaGrid = (props) => {
               <a href={`https://openlibrary.org/authors/${props.authorId}`}>
                 {props.personal_name}
               </a>
-              <span style={{ fontWeight: "lighter" }}> ({props.revision})</span>
+              <span style={{ fontWeight: "lighter" }}>
+                {" "}
+                ({props.revision ?? 0})
+              </span>
             </p>
           </Box>
         </Box>
@@ -62,7 +67,9 @@ const BookMetaGrid = (props) => {
               canExpand && !isExpanded ? "--expandable" : ""
             }${isExpanded ? "--expanded" : ""}`.trim()}
           >
-            {props.descriptionText}
+            <Typography sx={{ whiteSpace: "pre-wrap" }}>
+              {props.descriptionText}
+            </Typography>
           </p>
           {canExpand && (
             <button
@@ -83,32 +90,52 @@ const BookMetaGrid = (props) => {
         </Box>
 
         {/* Book Metadata */}
-        <Box className="book-meta__container">
-          <Box className="book-meta__item">
-            <span>Publish Date</span>
-            <p>{props.publish_date}</p>
+        {props.publish_date != null || props.publishers?.length > 0 ? (
+          <Box className="book-meta__container">
+            <Box className="book-meta__item">
+              <span>Publish Date</span>
+              <p>{props.publish_date}</p>
+            </Box>
+            <Box className="book-meta__item">
+              <span>Publisher</span>
+              <a
+                href={`https://openlibrary.org/publishers/${encodeURIComponent(
+                  props.publishers[0] || "Unknown Publisher"
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>{props.publishers[0] || "Unknown Publisher"}</p>
+              </a>
+            </Box>
+            <Box className="book-meta__item">
+              <span>Language</span>
+              <p>{props.bookLanguage}</p>
+            </Box>
+            <Box className="book-meta__item">
+              <span>Pages</span>
+              <p>{props.number_of_pages || "NA"}</p>
+            </Box>
           </Box>
-          <Box className="book-meta__item">
-            <span>Publisher</span>
-            <a
-              href={`https://openlibrary.org/publishers/${encodeURIComponent(
-                props.publishers[0] || "Unknown Publisher"
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <p>{props.publishers[0] || "Unknown Publisher"}</p>
-            </a>
-          </Box>
-          <Box className="book-meta__item">
-            <span>Language</span>
-            <p>{props.bookLanguage}</p>
-          </Box>
-          <Box className="book-meta__item">
-            <span>Pages</span>
-            <p>{props.number_of_pages || "NA"}</p>
-          </Box>
-        </Box>
+        ) : (
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            sx={{ marginTop: 4 }}
+            spacing={{ xs: 0.5, sm: 3 }}
+          >
+            <Typography variant="caption" color="text.secondary">
+              Open Library ID: {props.bookOLID}
+            </Typography>
+
+            <Typography variant="caption" color="text.secondary">
+              Author Key: {props.authorId}
+            </Typography>
+
+            <Typography variant="caption" color="text.secondary">
+              Created: {new Date(props.created_at).toLocaleString()}
+            </Typography>
+          </Stack>
+        )}
       </Box>
     </>
   );
