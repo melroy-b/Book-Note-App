@@ -2,8 +2,8 @@ import express from "express";
 import session from "express-session";
 import passport from "passport";
 import cors from "cors";
-import bookRouter from "./routes/bookRoutes.js";
-import authRouter from "./routes/authRoutes.js";
+import bookRouter from "./routes/bookRoutes.js"; // For book related routes
+import authRouter from "./routes/authRoutes.js"; // For auth routes
 import db from "./db/index.js";
 import dotenv from "dotenv";
 dotenv.config();

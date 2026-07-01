@@ -9,6 +9,14 @@ const openLibraryUrl = "http://openlibrary.org/";
  */
 export const getUserBooks = async (req, res) => {
   const userId = parseInt(req.params.userId);
+  const bookId = req.query.bookId;
+
+  console.log(
+    "Fetching books for user ID:",
+    userId,
+    "with book ID filter:",
+    bookId
+  );
   if (!userId) {
     console.error("User ID is required / Need Log In first");
     return res
@@ -16,11 +24,18 @@ export const getUserBooks = async (req, res) => {
       .json({ error: "User ID is required / Need Log In first" });
   }
   try {
-    const books = await db.query(
-      "SELECT * FROM notes JOIN books ON books.id = book_id WHERE user_id = $1",
-      [userId]
-    );
+    const books =
+      bookId !== undefined
+        ? await db.query(
+            "SELECT * FROM notes JOIN books ON books.id = book_id WHERE user_id = $1 AND books.ol_id = $2",
+            [userId, bookId]
+          )
+        : await db.query(
+            "SELECT * FROM notes JOIN books ON books.id = book_id WHERE user_id = $1",
+            [userId]
+          );
 
+    console.log("Fetched books:", books.rows);
     res.json({ error: null, data: books.rows });
   } catch (err) {
     console.error(err);

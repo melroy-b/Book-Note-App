@@ -58,7 +58,7 @@ const useBookSearch = (debouncedText) => {
 };
 
 /**
- * Loads books saved by a specific user from the app database.
+ * Loads all books saved by a specific user from the app database.
  */
 export const useDBBookSearch = (userId) => {
   const [books, setBooks] = useState([]);
@@ -104,6 +104,58 @@ export const useDBBookSearch = (userId) => {
   }, [userId]);
 
   return { books };
+};
+
+/**
+ * Loads a specific book note saved by a specific user from the app database for editing.
+ * If a note is not found, an empty array is returned.
+ */
+export const useBookNoteSearch = () => {
+  const [note, setNote] = useState([]);
+
+  // useEffect(() => {
+
+  //   return () => controller.abort();
+  // }, [userId, bookId]);
+
+  // Avoid a request until the authenticated user's id is available.
+  const controller = new AbortController();
+  const fetchBookNote = async (userId, bookId) => {
+    try {
+      if (!userId) {
+        setNote([]);
+        return;
+      }
+
+      const response = await fetch(
+        `${API_URL}/api/books/${userId}/fetch_books?bookId=${bookId}`,
+        {
+          credentials: "include",
+          signal: controller.signal,
+        }
+      );
+
+      const response_json = await response.json();
+      if (!response.ok)
+        throw new Error(response_json.error || "DATABASE_ERROR");
+
+      const fetchedNote = response_json.data;
+      setNote(fetchedNote);
+      console.log("Fetched note from database:", fetchedNote);
+      return { success: true, data: fetchedNote };
+    } catch (error) {
+      if (error.name != "AbortError") {
+        console.error(
+          `Error fetching the note from database for book ${bookId}: `,
+          error.message
+        );
+        setNote([]);
+        return { success: false, error: error.message };
+      }
+    }
+  };
+
+  return { fetchBookNote };
 };
 
 export default useBookSearch;

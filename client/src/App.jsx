@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound.jsx";
 import BookDetails from "./pages/BookDetails.jsx";
 import MyBooks from "./pages/MyBooks.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import NoteEdit from "./pages/NoteEdit.jsx";
 
 /**
  * Defines the top-level client-side routes for the book notes app.
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/book/:bookId" element={<BookDetails />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/mybooks" element={<MyBooks />} />
+          <Route path="/editnote/:noteId" element={<NoteEdit />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Route>

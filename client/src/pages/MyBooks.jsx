@@ -1,9 +1,8 @@
-import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, Link } from "react-router-dom";
 import { useDBBookSearch } from "../hooks/useBookSearch";
 import BookCard from "../components/BookCard";
-
-const API_URL = import.meta.env.VITE_API_URL;
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 /**
  * Renders the saved books and notes for the current user.
@@ -11,19 +10,44 @@ const API_URL = import.meta.env.VITE_API_URL;
 const MyBooks = () => {
   const { userAuth } = useOutletContext();
 
-  
   const userId = userAuth?.user?.id;
   const { books } = useDBBookSearch(userId);
 
   return (
-    <>
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: 1240,
+        mx: "auto",
+        px: { xs: 2, sm: 3, md: 4 },
+        py: 2,
+      }}
+    >
       {books?.length > 0
         ? books.map((item) => {
             console.log(item);
-            return <BookCard key={item.id} book={item} />;
+            return (
+              <Button
+                key={item.id}
+                component={Link}
+                to={`/editnote/${item.ol_id}`}
+                sx={{
+                  width: "100%",
+                  display: "block",
+                  p: 0,
+                  mb: 3,
+                  color: "inherit",
+                  textAlign: "left",
+                  textDecoration: "none",
+                  textTransform: "none",
+                }}
+              >
+                <BookCard book={item} />
+              </Button>
+            );
           })
         : "No books to display yet"}
-    </>
+    </Box>
   );
 };
 

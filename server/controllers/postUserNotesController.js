@@ -34,14 +34,27 @@ export const postUserNotes = async (req, res) => {
             .then((s) => s.rows[0].id);
 
     // Create a note connected to the authenticated user and stored book record.
-    await db.query(
-      "INSERT INTO notes (user_id, book_id, content, date_read, rating) VALUES ($1, $2, $3, $4, $5);",
-      [userID, dbBookID, noteContent, date_read, rating]
+    const noteExists = await db.query(
+      "SELECT id FROM notes WHERE user_id = $1 AND book_id = $2;",
+      [userID, dbBookID]
     );
+
+    noteExists.rows.length > 0
+      ? // If a note already exists for this user and book, update it instead of creating a new one.
+        await db.query(
+          "UPDATE notes SET content=$1, date_read=$2, rating=$3 WHERE user_id=$4 AND book_id=$5;",
+          [noteContent, date_read, rating, userID, dbBookID]
+        )
+      : // If no note exists, create a new one.
+        await db.query(
+          "INSERT INTO notes (user_id, book_id, content, date_read, rating) VALUES ($1, $2, $3, $4, $5);",
+          [userID, dbBookID, noteContent, date_read, rating]
+        );
 
     console.log("server object: ", req.body);
     res.status(201).json("ok"); //Request created successful
   } catch (error) {
+    console.error("Error posting data into database: ", error);
     res
       .status(500)
       .json({ message: "Error posting data into database", error: error.code });

@@ -89,6 +89,7 @@ const BookCoverGrid = (props) => {
           bookOLID={props.bookOLID}
           onSubmit={onSubmit}
           loading={loading}
+          onNoteFetched={props.onNoteFetched}
         />
       </Box>
 

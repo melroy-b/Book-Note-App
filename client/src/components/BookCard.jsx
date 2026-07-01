@@ -6,6 +6,7 @@ import {
   Stack,
   Chip,
   Divider,
+  Rating,
 } from "@mui/material";
 
 /**
@@ -15,11 +16,11 @@ const BookCard = ({ book }) => {
   return (
     <Card
       sx={{
-        maxWidth: "100%",
+        width: "100%",
+        boxSizing: "border-box",
         display: "flex",
         gap: 3,
         p: 2,
-        margin: 3,
         borderRadius: 3,
         boxShadow: 3,
       }}
@@ -45,6 +46,8 @@ const BookCard = ({ book }) => {
           <Typography variant="body1" color="text.secondary">
             {book.author_name}
           </Typography>
+
+          <Rating name="half-rating" value={book.rating} readOnly />
 
           <Chip
             label={`Read on ${new Date(book.date_read).toLocaleDateString()}`}
