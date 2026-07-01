@@ -60,7 +60,7 @@ const AddNoteModal = (props) => {
     };
 
     fetchExistingNote();
-  }, [isAuthenticated, open]);
+  }, [isAuthenticated, open, props.bookOLID, userAuth?.user?.id]);
 
   // Require login before opening the note form.
   const handleOpen = async () => {
@@ -120,8 +120,7 @@ const AddNoteModal = (props) => {
 
   // Restore the modal to its initial note state.
   const handleReset = () => {
-    setNoteContent(
-    );
+    setNoteContent();
     setDate(null);
     setRating(null);
     setError("");
@@ -263,7 +262,7 @@ const AddNoteModal = (props) => {
                 loading={props.loading}
                 loadingPosition="start"
               >
-                Submit
+                {noteContent ? "Edit Note" : "Submit"}
               </Button>
             </Stack>
           </Box>
