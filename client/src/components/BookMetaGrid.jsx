@@ -39,14 +39,14 @@ const BookMetaGrid = (props) => {
             <p>
               by{" "}
               <a href={`https://openlibrary.org/authors/${props.authorId}`}>
-                {props.personal_name}
+                {props.authorName || "Unknown Author"}
               </a>
               <span style={{ fontWeight: "lighter" }}>
                 {" "}
-                ({props.revision ?? 0})
+                (v.{props.revision ?? "NA"})
               </span>
             </p>
-          </Box>
+          </Box>  
         </Box>
       </Box>
 

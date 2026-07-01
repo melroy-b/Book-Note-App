@@ -4,6 +4,7 @@ import { useBookNoteSearch } from "../hooks/useBookSearch";
 import BookCoverGrid from "../components/BookCoverGrid";
 import BookMetaGrid from "../components/BookMetaGrid";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 const NoteEdit = () => {
   const { noteId } = useParams();
@@ -32,6 +33,9 @@ const NoteEdit = () => {
 
   return (
     <Box sx={{ flexGrow: 1, padding: "20px" }}>
+      <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+        Note Edit Section
+      </Typography>
       <Box
         sx={{
           display: "grid",
@@ -50,7 +54,7 @@ const NoteEdit = () => {
         />
         <BookMetaGrid
           title={existingNote?.title}
-          personal_name={existingNote?.author_name}
+          authorName={existingNote?.author_name}
           authorId={existingNote?.author_key}
           bookOLID={existingNote?.ol_id}
           created_at={existingNote?.created_at}
