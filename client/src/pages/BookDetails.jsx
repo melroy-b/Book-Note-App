@@ -5,6 +5,7 @@ import BookMetaGrid from "../components/BookMetaGrid";
 // MUI components
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
 /**
  * Displays a selected book's details, cover, metadata, and note action.
@@ -22,7 +23,7 @@ const BookDetails = () => {
     title = "Untitled",
     covers: rawCovers = [],
     revision = 0,
-    author: { personal_name = "Unknown Author" } = {},
+    author: { personal_name, name } = {},
     edition: {
       publishers = [],
       publish_date = "NA",
@@ -37,9 +38,18 @@ const BookDetails = () => {
     typeof rawDescription === "string"
       ? rawDescription
       : rawDescription?.value || "No description available";
+  const authName =
+    personal_name != null
+      ? personal_name
+      : name != null
+      ? name
+      : "Unknown Author";
 
   return (
     <Box sx={{ flexGrow: 1, padding: "20px" }}>
+      <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+        Book Details
+      </Typography>
       <Box
         sx={{
           display: "grid",
@@ -51,7 +61,7 @@ const BookDetails = () => {
         {/* Book metadata grid (title, author, etc.) */}
         <BookMetaGrid
           title={title}
-          personal_name={personal_name}
+          authorName={authName}
           revision={revision}
           descriptionText={descriptionText}
           publish_date={publish_date}
@@ -64,7 +74,7 @@ const BookDetails = () => {
         <BookCoverGrid
           rawCovers={rawCovers}
           bookTitle={title}
-          authorName={personal_name}
+          authorName={authName}
           authorId={authorId}
           bookOLID={bookId}
         />
