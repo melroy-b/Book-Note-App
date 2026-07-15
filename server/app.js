@@ -10,12 +10,13 @@ dotenv.config();
 
 const app = express();
 const isProduction = process.env.NODE_ENV === "production";
+const clientUrl = process.env.CLIENT_URL?.replace(/\/$/, "");
 
 // Render terminates HTTPS before forwarding traffic to Express.
 app.set("trust proxy", 1);
 
 // Allow the React client to send session cookies with API requests.
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+app.use(cors({ origin: clientUrl, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
