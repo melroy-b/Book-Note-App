@@ -14,7 +14,7 @@ import InputBase from "@mui/material/InputBase";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
+import Stack from "@mui/material/Stack";  
 import BrandLogo from "../assets/journal-bookmark-fill.svg";
 
 // Custom hooks
