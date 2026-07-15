@@ -41,4 +41,9 @@ app.use("/auth", authRouter);
 // Test database connection
 //await db.query("SELECT 1")
 
+// Test route to verify server is running
+app.get("/", (req, res) => {
+  res.json({ status: "ok", service: "Book Note API" });
+});
+
 export default app;
