@@ -262,7 +262,7 @@ const AddNoteModal = (props) => {
                 loading={props.loading}
                 loadingPosition="start"
               >
-                {noteContent ? "Edit Note" : "Submit"}
+                {noteContent != "" ? "Edit Note" : "Submit"}
               </Button>
             </Stack>
           </Box>
