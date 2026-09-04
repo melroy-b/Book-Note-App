@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
+//import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
+import { useAuthContext } from "../context/AuthContext.jsx";
 import { useBookNoteSearch } from "../hooks/useBookSearch";
 import {
   Box,
@@ -32,7 +33,7 @@ const AddNoteModal = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const returnTo = `${location.pathname}${location.search}${location.hash}`;
-  const { isAuthenticated, userAuth } = useCheckAuthentication();
+  const { isAuthenticated, userAuth } = useAuthContext();
   const { fetchBookNote } = useBookNoteSearch();
 
   useEffect(() => {

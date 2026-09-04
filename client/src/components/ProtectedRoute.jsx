@@ -1,14 +1,14 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { CircularProgress, Box } from "@mui/material";
-import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
+//import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
+import { useAuthContext } from "../context/AuthContext.jsx";
 
 /**
  * Guards nested routes and redirects unauthenticated users to login.
  */
 const ProtectedRoute = () => {
   const location = useLocation();
-  const { isCheckingAuth, isAuthenticated, userAuth } =
-    useCheckAuthentication();
+  const { isCheckingAuth, isAuthenticated, userAuth } = useAuthContext();
 
   if (isCheckingAuth) {
     // Keep protected content hidden while the session check is in progress.
