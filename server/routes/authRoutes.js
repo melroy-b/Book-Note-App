@@ -30,8 +30,11 @@ const storeReturnTo = (req, res, next) => {
  */
 const handleOAuthCallback = (provider) => (req, res, next) => {
   passport.authenticate(provider, (err, user) => {
+    console.log("handleOAuthCallback: user:", user);
+    console.log("handleOAuthCallback: err:", err);
     if (err) return next(err);
     if (!user) {
+      console.log("handleOAuthCallback: Invalid credentials");
       return res.redirect(
         `${process.env.CLIENT_URL}/login?error=invalid_credentials`
       );
