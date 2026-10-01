@@ -7,6 +7,7 @@ import AuthForm from "../components/AuthForm";
 const Register = () => {
   const [searchParams] = useSearchParams();
   const returnTo = searchParams.get("returnTo") || "/";
+  const error = searchParams.get("error");
 
   return (
     <>
@@ -15,7 +16,9 @@ const Register = () => {
         CreateAccount={true}
         HeaderText={"Create an account"}
         BodyText={
-          "Register to keep track of your books, notes, and reading progress."
+          error === "user_not_found"
+            ? "User not found, please register"
+            : "Register to keep track of your books, notes, and reading progress."
         }
         returnTo={returnTo}
       />
