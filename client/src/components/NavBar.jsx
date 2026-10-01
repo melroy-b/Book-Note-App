@@ -2,19 +2,20 @@ import { useState, useRef, useEffect } from "react";
 import DropDownLink from "./DropDownLink";
 import { Link } from "react-router-dom";
 import { AccountMenu } from "./AccountMenu";
-import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
+//import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
+import { useAuthContext } from "../context/AuthContext.jsx";
 import AutohideSnackbar from "./Snackbar";
 
 // MUI components
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import Navbar from "react-bootstrap/Navbar" ;
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";  
+import Stack from "@mui/material/Stack";
 import BrandLogo from "../assets/journal-bookmark-fill.svg";
 
 // Custom hooks
@@ -84,7 +85,7 @@ const NavBar = () => {
   const debouncedText = useDebounce(searchText, 350);
   const [results, loading, showDropdown, setShowDropdown, error] =
     useBookSearch(debouncedText);
-  const { isAuthenticated, setIsAuthenticated } = useCheckAuthentication();
+  const { isAuthenticated, setIsAuthenticated } = useAuthContext();
 
   useEffect(() => {
     // Close the dropdown when the user clicks outside the search area.
