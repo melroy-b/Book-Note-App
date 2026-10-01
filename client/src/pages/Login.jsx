@@ -20,6 +20,8 @@ const Login = () => {
       return "Invalid username/email or password";
     else if (info == "user_already_exists")
       return "User already exists, Log in";
+    else if (error == "user_not_found")
+      return "User not found, please register";
     else return "Log in and access your books, notes, and reading progress.";
   };
 
