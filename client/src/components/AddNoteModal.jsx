@@ -245,7 +245,9 @@ const AddNoteModal = (props) => {
                 }
               }}
               error={Boolean(error)}
-              helperText={error || `${noteContent.trim().length} characters`}
+              helperText={
+                error || `${noteContent?.trim().length ?? 0} characters`
+              }
             />
 
             {/* Guided buttons */}
